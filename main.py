@@ -69,6 +69,7 @@ def createChat():
         return redirect(url_for('home'))
 @app.route('/join',methods=["GET","POST"])
 def joinChat():
+
     if log():
         if request.method == "GET":
             return render_template("join.html")
@@ -86,7 +87,7 @@ def joinChat():
                 db.session.commit()
                 return redirect(url_for('room'))
     else:
-        return redirect(url_for('home'))
+        return "user ny sign"
 
 @app.route("/room", methods = ["GET","POST"])
 def room():
