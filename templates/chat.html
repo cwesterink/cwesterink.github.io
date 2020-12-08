@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "hide.html"%}
+{% block title %}Chat{% endblock %}
+{% block content %}
+
+<h2><center>Code: {{code}}</center></h2>
+<p align='right'> active: {{members}}</p>
+<form action="/refresh" , method="post">
+
+    <input type="submit" value="Refresh">
+</form>
+<center><table border=1 width=100%>
+{% with messages = get_flashed_messages() %}
+    {% for msg in messages %}
+    <tr>
+        {% if msg.endswith('chat.') %}
+
+            <td bgcolor="white"><p align="left"><font color ="grey">{{msg}}</font></p></td>
+
+
+        {% else %}
+
+            {% if user in msg %}
+                <td><p align="right"><span style="background-color: #ADD8E6">{{msg}}</span></p></td>
+
+            {% else %}
+                <td><p align="left"><span style="background-color: grey">{{msg}}</span></p></td>
+            {% endif %}
+        {% endif %}
+
+
+    </tr>
+    {% endfor %}
+{% endwith %}
+</table></center>
+
+
+<form action ="/room", method = "post" >
+    <p align="right"><input type="text" name = "chat">
+    <input type="submit" value = "send"></p>
+</form>
+
+<form action ="/room", method = "post" >
+    <input type="submit" value ='leave Room'>
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends "base.html"%}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<h2><center>Login</center></h2>
+<center>
+
+<form action ="#", method = "post">
+    <p>enter Name</p>
+    <p><input type="text" name = "name"></p>
+    <p><input type="submit" value = "submit"></p>
+</form></center>
+{% with messages = get_flashed_messages() %}
+    {% for msg in messages %}
+        <p>{{msg}}<p>
+    {% endfor %}
+{% endwith %}
+{% endblock %}

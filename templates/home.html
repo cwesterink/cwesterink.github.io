@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends "base.html"%}
+{% block title %}Home page{% endblock %}
+{% block content %}
+
+<h2><center>Home Page</center></h2>
+{% with messages = get_flashed_messages() %}
+    {% for msg in messages %}
+        <p>{{msg}}<p>
+    {% endfor %}
+{% endwith %}
+{%if login == True%}
+    <form action ="#", method = "post">
+    <p><input type="submit" value = "Logout"></p>
+    </form></center>
+{% endif %}
+{% endblock %}
