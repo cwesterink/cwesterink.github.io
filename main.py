@@ -69,10 +69,8 @@ def createChat():
         return redirect(url_for('home'))
 @app.route('/join',methods=["GET","POST"])
 def joinChat():
-
     if log():
         if request.method == "GET":
-            return "Errorhere"
             return render_template("join.html")
         else:
             session['code'] = request.form['code']

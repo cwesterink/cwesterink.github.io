@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 {% extends "base.html"%}
-{% block title %}Home page{% endblock %}
+{% block title %}Join{% endblock %}
 {% block content %}
 
-<h2><center>Home Page</center></h2>
+<h2><center>Join Chat</center></h2>
+<center>
+
+<form action ="/join", method = "post">
+    <p>enter Code</p>
+    <p><input type="text" name = "code"></p>
+    <p><input type="submit" value = "Chat"></p>
+</form></center>
 {% with messages = get_flashed_messages() %}
     {% for msg in messages %}
         <p>{{msg}}<p>
     {% endfor %}
 {% endwith %}
-{%if login == True%}
-    <form action ="#", method = "post">
-    <p><input type="submit" value = "Logout"></p>
-    </form></center>
-{% endif %}
 {% endblock %}
