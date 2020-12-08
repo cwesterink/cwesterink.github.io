@@ -86,7 +86,7 @@ def joinChat():
                 db.session.commit()
                 return redirect(url_for('room'))
     else:
-        return redirect('home')
+        return redirect(url_for('home'))
 
 @app.route("/room", methods = ["GET","POST"])
 def room():
