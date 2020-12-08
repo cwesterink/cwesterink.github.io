@@ -72,6 +72,7 @@ def joinChat():
 
     if log():
         if request.method == "GET":
+            return "Errorhere"
             return render_template("join.html")
         else:
             session['code'] = request.form['code']
