@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
+from chat import chat
 import random as rand
+
 app = Flask(__name__)
 
 app.register_blueprint(chat, url_prefix='/chat')

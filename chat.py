@@ -5,10 +5,6 @@ import random as rand
 chat = Blueprint('chat', __name__, static_folder='static', template_folder='templates')
 
 
-
-@chat.route('')
-
-
 @chat.route('/create',methods = ["POST","GET"])
 def createChat():
     if log():
