@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import random as rand
-
+from main import log
 chat = Blueprint('chat', __name__, static_folder='static', template_folder='templates')
 
 
