@@ -1,4 +1,4 @@
-from flask import Blueprint render_template, redirect, request, url_for, session, flash
+from flask import Blueprint, render_template, redirect, request, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import random as rand
 
