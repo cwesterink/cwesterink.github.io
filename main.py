@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-
+from calculator import simplify
 #from chat import chat
 import random as rand
 
@@ -30,15 +30,13 @@ def log():
     return False
 @app.route('/', methods =["POST","GET"])
 def home():
-    if request.method =="GET":
+    if request.method =="GET" or request.method =='POST':
         if log():
             flash(f"Welsome {session['user']},you are logged in ")
         else:
             flash('you are not logged in')
         return render_template("home.html",login=log())
-    else:
-        session.clear()
-        return redirect(url_for('home'))
+    
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "GET":
@@ -58,7 +56,7 @@ def createChat():
 
         db.session.add(rooms(code=session['code'], msg=session['user']+ " entered the chat.",members=1))
         db.session.commit()
-        return redirect(url_for('room'))
+        return redirect(url_for('room', code = session['code']))
     else:
         return redirect(url_for('home'))
 @app.route('/join',methods=["GET","POST"])
@@ -78,23 +76,28 @@ def joinChat():
                 myRoom.members += 1
                 myRoom.msg += ","+session['user']+ " entered the chat."
                 db.session.commit()
-                return redirect(url_for('room'))
+                return redirect(url_for('room', code = session['code']))
     else:
         return render_template(url_for('home'))
 
 @app.route("/room/<code>", methods = ["GET","POST"])
 def room(code):
-    myRoom = rooms.query.filter_by(code=session['code']).first()
+    try:
+        myRoom = rooms.query.filter_by(code=session['code']).first()
+    except:
 
-    print(request.form)
-    print(len(request.form))
-    if len(request.form) != 0:
-        myRoom.msg += ","+session['user']+":  "+request.form['chat']
-        db.session.commit()
+        return redirect(url_for('home'))
+    else:
 
-    for i in msgs:
-        flash(i)
-    return render_template('chat.html', code=session['code'], user=session['user'], members=myRoom.members)
+    
+        if len(request.form) != 0:
+            myRoom.msg += ","+session['user']+":  "+request.form['chat']
+            db.session.commit()
+
+        msgs = myRoom.msg.split(',')
+        for i in msgs:
+            flash(i)
+        return render_template('chat.html', code=session['code'], user=session['user'], members=myRoom.members)
 
 
 @app.route('/leave', methods = ['GET','POST'])
@@ -106,13 +109,7 @@ def leave():
         db.session.delete(myRoom)
     db.session.commit()
 
-
-    msgs = myRoom.msg.split(',')
-
-    for i in msgs:
-        flash(i)
-
-    return render_template('chat.html',code = session['code'],user=session['user'],members = myRoom.members)
+    return redirect(url_for('home'))
 
 
 @app.route("/joinRandom")
@@ -123,6 +120,13 @@ def random():
     myRoom.members += 1
     db.session.commit()
     return redirect(url_for('room'))
+
+
+
+@app.route('/calculator')
+def clac():
+    if request.method == 'GET':
+        
 
 if __name__ == "__main__":
     db.create_all()
