@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for, session, flash
+from flask_sqlalchemy import SQLAlchemy
 
 #from chat import chat
 import random as rand
@@ -10,9 +11,9 @@ app = Flask(__name__)
 
 db = SQLAlchemy(app)
 
-chat.secret_key = "const"
-chat.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-chat.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = "const"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 
@@ -64,7 +65,7 @@ def login():
         return redirect(url_for('home'))
 
 
-@chat.route('/join',methods=["GET","POST"])
+@app.route('/join',methods=["GET","POST"])
 def joinChat():
     if log():
         if request.method == "GET":
@@ -85,9 +86,9 @@ def joinChat():
     else:
         return redirect(url_for('home'))
 
-@chat.route("/room/<code>", methods = ["GET","POST"])
-def room(code):
-    myRoom = chatRooms.query.filter_by(code=code).first()
+@app.route("/room/<code>", methods = ["GET","POST"])
+def room(num):
+    myRoom = chatRooms.query.filter_by(code=num).first()
     if request.method == "POST":
         print(request.form)
         print(len(request.form))
@@ -111,7 +112,7 @@ def room(code):
     return render_template('chat.html',code = code,user=session['user'],members = myRoom.members)
 
 
-@chat.route("/joinRandom")
+@app.route("/joinRandom")
 def random():
     myRoom = chatRooms.query.first()
     myRoom.msg += "," + session['user'] + " entered the chat."
