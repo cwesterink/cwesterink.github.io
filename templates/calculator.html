@@ -3,11 +3,11 @@
 {% block title %}Join{% endblock %}
 {% block content %}
 
-<h2><center>Join Chat</center></h2>
+<h2><center>{{math}}</center></h2>
 <center>
 
 <form action ="/calculator", method = "post">
-    <p>Enter expression</p>
+    <p>{{inptTxt}}}</p>
     <p><input type="text" name = "input"></p>
     <p><input type="submit" value = "Calculate"></p>
 </form></center>

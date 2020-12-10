@@ -2,12 +2,15 @@ from flask import Flask, render_template, redirect, request, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from calculator import simplify
 #from chat import chat
+from math import math
+
 import random as rand
 
 
 app = Flask(__name__)
 
 #app.register_blueprint(chat, url_prefix='/chat')
+app.register_blueprint(math, url_prefix='/math')
 
 
 
@@ -121,19 +124,6 @@ def random():
     db.session.commit()
     return redirect(url_for('room'))
 
-
-
-@app.route('/calculator', methods = ['POST','GET'])
-def clac():
-    if request.method == 'GET':
-        return render_template('calculator.html')
-
-    else:
-        session['calcInpt'] = request.form['input']
-        num = simplify(session['calcInpt'])
-        flash(session['calcInpt'])
-        flash(num)
-        return render_template('calculator.html')
 
 
 if __name__ == "__main__":
