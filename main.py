@@ -126,7 +126,8 @@ def random():
 @app.route('/calculator')
 def clac():
     if request.method == 'GET':
-        
+        return "calc"
+
 
 if __name__ == "__main__":
     db.create_all()
