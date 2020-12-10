@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 {% extends "base.html"%}
-{% block title %}Join{% endblock %}
+{% block title %}Math{% endblock %}
 {% block content %}
 
 <h2><center>{{math}}</center></h2>
 <center>
 
-<form action ="/calculator", method = "post">
-    <p>{{inptTxt}}}</p>
-    <p><input type="text" name = "input"></p>
+<form action ="/math/{{math}}", method = "post">
+    <p>{{inptTxt}}</p>
+
+    <p>{{extra}}<input type="text" name = "input"></p>
     <p><input type="submit" value = "Calculate"></p>
 </form></center>
 {% with messages = get_flashed_messages() %}
@@ -16,4 +17,19 @@
         <p><center>{{msg}}</center><p>
     {% endfor %}
 {% endwith %}
+
+
+
+<h3>Avaliable Functions</h3>
+<p1>
+	Random Number: rand(x,y)
+	<br>Sqare Root: sqrt(x)
+	<br>Absolute Value: |x|
+	<br>Sin: sin(x)
+	<br>Cos: cos(x)
+	<br>Tan: tan(x)
+
+
+
+</p1>
 {% endblock %}

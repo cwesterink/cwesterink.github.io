@@ -216,6 +216,7 @@ def simplify(expression,o):
 
         return functions(expression)
 def functions(expression):
+    print(expression)
     global ans
     func = True
     while func == True:
@@ -241,7 +242,7 @@ def functions(expression):
             l = expression.find("|", f)
             num = expression[f:l]
 
-            expression = expression[:f - 1] + abv(simplify(num)) + expression[l + 1:]
+            expression = expression[:f - 1] + abv(mathy(num)) + expression[l + 1:]
 
         elif "sqrt" in expression:
             f = expression.find("sqrt(") + 5
@@ -249,7 +250,7 @@ def functions(expression):
             num = expression[f:l]
 
 
-            expression = expression[:f - 5] + sqrt(simplify(num)) + expression[l + 1:]
+            expression = expression[:f - 5] + sqrt(mathy(num)) + expression[l + 1:]
 
         elif "sin(" in expression:
             f = expression.find("sin(")
@@ -258,19 +259,19 @@ def functions(expression):
 
             num = str(math.sin(float(num)))
 
-            expression = expression[:f] + num + expression[l + 1:]
+            expression = expression[:f] +  str(math.tan(mathy(num))) + expression[l + 1:]
         elif "cos(" in expression:
             f = expression.find("cos(")
             l = expression.find(")", f)
-            num = expression[f + 4:l - 1]
-
-            expression = expression[:f] + str(math.cos(float(num))) + expression[l + 1:]
+            num = expression[f + 4:l]
+            print(num)
+            expression = expression[:f] + str(math.cos(mathy(num))) + expression[l + 1:]
         elif "tan(" in expression:
             f = expression.find("tan(")
             l = expression.find(")", f)
-            num = expression[f + 4:l - 1]
+            num = expression[f + 4:l]
 
-            expression = expression[:f] + str(math.tan(float(num))) + expression[l + 1:]
+            expression = expression[:f] + str(math.tan(mathy(num))) + expression[l + 1:]
 
         else:
             func = False
@@ -279,8 +280,8 @@ def functions(expression):
         return sort(expression)
 
 
-def math(x,type):
-    return simplify(x,type)
+def mathy(x):
+    return functions(x)
 
 
 
