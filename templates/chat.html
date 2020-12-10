@@ -5,7 +5,7 @@
 
 <h2><center>Code: {{code}}</center></h2>
 <p align='right'> active: {{members}}</p>
-<form action="/room" , method="get">
+<form action="/room/{{code}}" , method="post">
 
     <input type="submit" value="Refresh">
 </form>
@@ -35,12 +35,12 @@
 </table></center>
 
 
-<form action ="/room", method = "post" >
+<form action ="/room/{{code}}", method = "post" >
     <p align="right"><input type="text" name = "chat">
     <input type="submit" value = "send"></p>
 </form>
 
-<form action ="/room", method = "get" >
+<form action ="/leave", method = "post" >
     <input type="submit" value ='leave Room'>
 </form>
 

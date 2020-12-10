@@ -70,7 +70,7 @@ def joinChat():
 
 @chat.route("/room/<code>", methods = ["GET","POST"])
 def room(code):
-    myRoom = chatRooms.query.filter_by(code=code).first()
+    myRoom = chatRooms.query.filter_by(code=session['code']).first()
     if request.method == "POST":
         print(request.form)
         print(len(request.form))

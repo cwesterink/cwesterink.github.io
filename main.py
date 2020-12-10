@@ -80,23 +80,30 @@ def joinChat():
                 db.session.commit()
                 return redirect(url_for('room'))
     else:
-        return "user ny sign"
+        return render_template(url_for('home'))
 
-@app.route("/room", methods = ["GET","POST"])
-def room():
+@app.route("/room/<code>", methods = ["GET","POST"])
+def room(code):
     myRoom = rooms.query.filter_by(code=session['code']).first()
-    if request.method == "POST":
-        print(request.form)
-        print(len(request.form))
-        if len(request.form) == 0:
-            myRoom.msg +=","+session['user']+ " left the chat."
+
+    print(request.form)
+    print(len(request.form))
+    if len(request.form) != 0:
+        myRoom.msg += ","+session['user']+":  "+request.form['chat']
+        db.session.commit()
+
+    for i in msgs:
+        flash(i)
+    return render_template('chat.html', code=session['code'], user=session['user'], members=myRoom.members)
+
+
+@app.route('/leave', methods = ['GET','POST'])
+def leave():
+    myRoom = rooms.query.filter_by(code=session['code']).first()
+    myRoom.msg +=","+session['user']+ " left the chat."
             myRoom.members -= 1
             if myRoom.members == 0:
                 db.session.delete(myRoom)
-            db.session.commit()
-            return redirect(url_for('home'))
-        else:
-            myRoom.msg += ","+session['user']+":  "+request.form['chat']
             db.session.commit()
 
 
@@ -106,14 +113,7 @@ def room():
         flash(i)
 
     return render_template('chat.html',code = session['code'],user=session['user'],members = myRoom.members)
-@app.route('/refresh', methods=['GET',"POST"])
-def refresh():
-    myRoom = rooms.query.filter_by(code=session['code']).first()
-    msgs = myRoom.msg.split(',')
 
-    for i in msgs:
-        flash(i)
-    return render_template('chat.html', code=session['code'], user=session['user'], members=myRoom.members)
 
 @app.route("/rand")
 def random():
