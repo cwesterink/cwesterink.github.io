@@ -126,7 +126,13 @@ def random():
 @app.route('/calculator')
 def clac():
     if request.method == 'GET':
-        return "calc"
+        return render_template('calculator.html')
+
+    else:
+        session['calcInpt'] = request.form['input']
+        num = simplify(session['calcInpt'])
+        flash(num)
+        return render_template('calculator.html')
 
 
 if __name__ == "__main__":
