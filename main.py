@@ -15,9 +15,7 @@ app.secret_key = "const"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
-
-class chatRooms(db.Model):
+class rooms(db.Model):
     _id = db.Column('id', db.Integer, primary_key=True)
     code = db.Column(db.Integer)
     msg = db.Column(db.String)
@@ -25,36 +23,25 @@ class chatRooms(db.Model):
     def __init__(self, code, msg, members):
         self.code = code
         self.msg = msg
-        self.members = member
-
-
-
-
+        self.members = members
 def log():
     if 'user' in session:
         return True
     return False
-
 @app.route('/', methods =["POST","GET"])
 def home():
     if request.method =="GET":
-
         if log():
-
-
             flash(f"Welsome {session['user']},you are logged in ")
         else:
-
             flash('you are not logged in')
         return render_template("home.html",login=log())
     else:
         session.clear()
         return redirect(url_for('home'))
-
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "GET":
-
         if log():
             return redirect(url_for('home'))
         else:
@@ -63,17 +50,17 @@ def login():
     if request.method == "POST":
         session['user'] = request.form['name']
         return redirect(url_for('home'))
+
 @app.route('/create',methods = ["POST","GET"])
 def createChat():
     if log():
         session['code'] = rand.randint(1000, 9999)
 
-        db.session.add(chatRooms(code=session['code'], msg=session['user']+ " entered the chat.",members=1))
+        db.session.add(rooms(code=session['code'], msg=session['user']+ " entered the chat.",members=1))
         db.session.commit()
         return redirect(url_for('room'))
     else:
         return redirect(url_for('home'))
-
 @app.route('/join',methods=["GET","POST"])
 def joinChat():
     if log():
@@ -82,7 +69,7 @@ def joinChat():
         else:
             session['code'] = request.form['code']
 
-            myRoom = chatRooms.query.filter_by(code=session['code']).first()
+            myRoom = rooms.query.filter_by(code=session['code']).first()
             if myRoom is None:
 
                 flash("room not found")
@@ -93,11 +80,11 @@ def joinChat():
                 db.session.commit()
                 return redirect(url_for('room'))
     else:
-        return redirect(url_for('home'))
+        return "user ny sign"
 
-@app.route("/room/<code>", methods = ["GET","POST"])
-def room(num):
-    myRoom = chatRooms.query.filter_by(code=num).first()
+@app.route("/room", methods = ["GET","POST"])
+def room():
+    myRoom = rooms.query.filter_by(code=session['code']).first()
     if request.method == "POST":
         print(request.form)
         print(len(request.form))
@@ -117,18 +104,24 @@ def room(num):
 
     for i in msgs:
         flash(i)
-    return "Refresh"
-    return render_template('chat.html',code = code,user=session['user'],members = myRoom.members)
 
+    return render_template('chat.html',code = session['code'],user=session['user'],members = myRoom.members)
+@app.route('/refresh', methods=['GET',"POST"])
+def refresh():
+    myRoom = rooms.query.filter_by(code=session['code']).first()
+    msgs = myRoom.msg.split(',')
 
-@app.route("/joinRandom")
+    for i in msgs:
+        flash(i)
+    return render_template('chat.html', code=session['code'], user=session['user'], members=myRoom.members)
+
+@app.route("/rand")
 def random():
-    myRoom = chatRooms.query.first()
+    myRoom = rooms.query.first()
     myRoom.msg += "," + session['user'] + " entered the chat."
     myRoom.members += 1
     db.session.commit()
     return redirect(url_for('room'))
-
 
 if __name__ == "__main__":
     db.create_all()
