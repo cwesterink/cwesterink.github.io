@@ -1,29 +1,11 @@
 from flask import Flask, render_template, redirect, request, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
+
 from chat import chat
 import random as rand
 
+
 app = Flask(__name__)
-
 app.register_blueprint(chat, url_prefix='/chat')
-
-
-app.secret_key = "const"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-
-
-class rooms(db.Model):
-    _id = db.Column('id', db.Integer, primary_key=True)
-    code = db.Column(db.Integer)
-    msg = db.Column(db.String)
-    members = db.Column(db.Integer)
-    def __init__(self, code, msg, members):
-        self.code = code
-        self.msg = msg
-        self.members = members
 
 
 
@@ -68,5 +50,4 @@ def login():
 
 
 if __name__ == "__main__":
-    db.create_all()
     app.run(debug=True)
