@@ -123,7 +123,7 @@ def random():
 
 
 
-@app.route('/calculator')
+@app.route('/calculator', methods = ['POST','GET'])
 def clac():
     if request.method == 'GET':
         return render_template('calculator.html')
@@ -131,6 +131,7 @@ def clac():
     else:
         session['calcInpt'] = request.form['input']
         num = simplify(session['calcInpt'])
+        print(num)
         flash(num)
         return render_template('calculator.html')
 
