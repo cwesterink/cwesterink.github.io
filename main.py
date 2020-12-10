@@ -101,10 +101,10 @@ def room(code):
 def leave():
     myRoom = rooms.query.filter_by(code=session['code']).first()
     myRoom.msg +=","+session['user']+ " left the chat."
-            myRoom.members -= 1
-            if myRoom.members == 0:
-                db.session.delete(myRoom)
-            db.session.commit()
+    myRoom.members -= 1
+    if myRoom.members == 0:
+        db.session.delete(myRoom)
+    db.session.commit()
 
 
     msgs = myRoom.msg.split(',')
