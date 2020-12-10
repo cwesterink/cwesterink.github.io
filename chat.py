@@ -19,6 +19,8 @@ class chatRooms(db.Model):
     code = db.Column(db.Integer)
     msg = db.Column(db.String)
     members = db.Column(db.Integer)
+
+    
     def __init__(self, code, msg, members):
         self.code = code
         self.msg = msg

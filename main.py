@@ -63,7 +63,16 @@ def login():
     if request.method == "POST":
         session['user'] = request.form['name']
         return redirect(url_for('home'))
+@chat.route('/create',methods = ["POST","GET"])
+def createChat():
+    if log():
+        session['code'] = rand.randint(1000, 9999)
 
+        db.session.add(chatRooms(code=session['code'], msg=session['user']+ " entered the chat.",members=1))
+        db.session.commit()
+        return redirect(url_for('room'))
+    else:
+        return redirect(url_for('home'))
 
 @app.route('/join',methods=["GET","POST"])
 def joinChat():
