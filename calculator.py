@@ -216,7 +216,7 @@ def simplify(expression,o):
 
         return functions(expression)
 def functions(expression):
-    print(expression)
+
     global ans
     func = True
     while func == True:
@@ -279,8 +279,44 @@ def functions(expression):
 
         return sort(expression)
 
+def fx(expression):
+    
+    z = np.arange(-15,15,0.25)
+    x = [z[i] for i in range(len(z))]
+    y = []
+
+    print(expression, "1st")
+    for j in range(len(expression)):
+        if expression[j] == "x":
+            if expression[j - 1].isnumeric() == True:
+                expression = expression[:j] + "*x" + expression[j + 1:]
+
+    xpression = expression
+    print(expression, "new expression")
+    for i in range(len(x)):
+
+
+        expression = xpression.replace("x", str(x[i]))
+
+        expression = expression.replace("--", "+")
+        expression = expression.replace("-+", "-")
+        expression = expression.replace("++", "+")
+        expression = expression.replace("+-", "-")
+
+        y += [functions(expression)]
+
+    plt.scatter(x, y)
+
+    plt.grid()
+    plt.show()
+    print("u")
+    return
+
+
+
 
 def mathy(x):
+
     return functions(x)
 
 
