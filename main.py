@@ -131,7 +131,7 @@ def clac():
     else:
         session['calcInpt'] = request.form['input']
         num = simplify(session['calcInpt'])
-        print(num)
+        flash(session['calcInpt'])
         flash(num)
         return render_template('calculator.html')
 
