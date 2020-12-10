@@ -115,9 +115,10 @@ def leave():
     return render_template('chat.html',code = session['code'],user=session['user'],members = myRoom.members)
 
 
-@app.route("/rand")
+@app.route("/joinRandom")
 def random():
     myRoom = rooms.query.first()
+    print(myRoom.code)
     myRoom.msg += "," + session['user'] + " entered the chat."
     myRoom.members += 1
     db.session.commit()
