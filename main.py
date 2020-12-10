@@ -63,7 +63,7 @@ def login():
     if request.method == "POST":
         session['user'] = request.form['name']
         return redirect(url_for('home'))
-@chat.route('/create',methods = ["POST","GET"])
+@app.route('/create',methods = ["POST","GET"])
 def createChat():
     if log():
         session['code'] = rand.randint(1000, 9999)
