@@ -9,12 +9,12 @@ app = Flask(__name__)
 
 #app.register_blueprint(chat, url_prefix='/chat')
 
-db = SQLAlchemy(app)
+
 
 app.secret_key = "const"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
-
+db = SQLAlchemy(app)
 
 
 class chatRooms(db.Model):
