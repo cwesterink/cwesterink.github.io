@@ -6,12 +6,13 @@ import random as rand
 chat = Blueprint('chat', __name__, static_folder='static', template_folder='templates')
 
 
-
+db = SQLAlchemy(app)
 
 chat.secret_key = "const"
-#chat.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-#chat.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy()
+chat.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+chat.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
 
 class chatRooms(db.Model):
     _id = db.Column('id', db.Integer, primary_key=True)
@@ -24,7 +25,6 @@ class chatRooms(db.Model):
         self.members = member
 
 
-db.create_all()
 
 
 
