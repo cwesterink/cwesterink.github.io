@@ -229,7 +229,7 @@ def functions(expression):
             ans = str(ans)
             f = expression.find("ans")
             expression = expression.replace("ans", ans)
-        elif expression.isalnum():
+        elif expression.isalnum() or '=' in expression:
             return None
         elif "rand(" in expression:
             f = expression.find("rand(")
