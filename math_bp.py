@@ -28,10 +28,16 @@ def calc():
 @math_bp.route('/function', methods=['POST', 'GET'])
 def function():
     if request.method == 'POST':
-        session['calcInpt'] = request.form['input']
-        print(session['calcInpt'])
-        x, y = fx(session['calcInpt'])
-        flash(session['calcInpt'])
+        inpt = request.form['input']
+
+        if '=' in inpt or inpt  =='' :
+            flash('error')
+            return render_template('calculator.html', math='Function', inptTxt='Enter Expression Below', extra='f(x)=')
+
+        x, y = fx(inpt)
+
+
+        flash(inpt)
 
 
         # Generate plot

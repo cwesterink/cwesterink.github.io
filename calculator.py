@@ -129,10 +129,14 @@ def sort(inpt):
     if Dbz == True:
         print("division by zero :/")
         return None
-    answer = float(nums[0])
-    if str(answer).endswith(".0"):
-        return int(answer)
-    return answer
+    try:
+        answer = float(nums[0])
+    except:
+        return None
+    else:
+        if str(answer).endswith(".0"):
+            return int(answer)
+        return answer
 
 
 def simplify(expression,o):
@@ -225,7 +229,8 @@ def functions(expression):
             ans = str(ans)
             f = expression.find("ans")
             expression = expression.replace("ans", ans)
-
+        elif expression.isalnum():
+            return None
         elif "rand(" in expression:
             f = expression.find("rand(")
             l = expression.find(")", f)
