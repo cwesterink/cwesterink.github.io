@@ -281,7 +281,7 @@ def functions(expression):
 
 def fx(expression):
     
-    z = np.arange(-15,15,0.25)
+    z = np.arange(-15,15.25,0.25)
     x = [z[i] for i in range(len(z))]
     y = []
 

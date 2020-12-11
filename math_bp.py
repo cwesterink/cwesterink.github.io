@@ -3,7 +3,7 @@ math_bp = Blueprint('math_bp', __name__, static_folder='static', template_folder
 
 
 from calculator import mathy
-
+from calculator import fx
 
 @math_bp.route('/calculator', methods = ['POST','GET'])
 def clac():
@@ -14,7 +14,7 @@ def clac():
         num = mathy(session['calcInpt'])
         flash(session['calcInpt'])
         flash(num)
-    return render_template('calculator.html',math='calculator',inptTxt='Enter Calculation Below:',extra='')
+    return render_template('calculator.html',math='Calculator',inptTxt='Enter Calculation Below:',extra='')
 
 
 @math_bp.route('/function', methods = ['POST','GET'])
@@ -23,7 +23,7 @@ def function():
         
         session['calcInpt'] = request.form['input']
         print(session['calcInpt'])
-        num = simplify(session['calcInpt'])
+        num = fx(session['calcInpt'])
         flash(session['calcInpt'])
         flash(num)
-    return render_template('calculator.html',math='Functions',inptTxt='Enter Expression Below',extra='f(x)=')
+    return render_template('calculator.html',math='Function',inptTxt='Enter Expression Below',extra='f(x)=')
