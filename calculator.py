@@ -288,11 +288,10 @@ def fx(expression):
     print(expression, "1st")
     for j in range(len(expression)):
         if expression[j] == "x":
-            if expression[j - 1].isnumeric() == True:
+            if expression[j - 1].isnumeric() == True or expression[j-1] == ')':
                 expression = expression[:j] + "*x" + expression[j + 1:]
-
+    print(x)
     xpression = expression
-    print(expression, "new expression")
     for i in range(len(x)):
 
 
@@ -309,8 +308,9 @@ def fx(expression):
 
     plt.grid()
     plt.show()
-    print("u")
-    return
+    plt.savefig('/static/plt.png')  # save the figure to file
+    plt.close(plt)
+    
 
 
 
