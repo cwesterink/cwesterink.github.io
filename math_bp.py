@@ -28,9 +28,13 @@ def calc():
 @math_bp.route('/function', methods=['POST', 'GET'])
 def function():
     x,y = 0,0
+
+    color = 'k'
     if request.method == 'POST':
-        inpt = request.form['input']
-        x, y = fx(inpt)
+        inpt = str(request.form['input'])
+        color = str(request.form['color'])
+        ranges = int(request.form['range'])
+        x, y = fx(inpt, ranges)
         flash(inpt)
 
     # Generate plot
@@ -40,7 +44,7 @@ def function():
     axis.set_xlabel("x")
     axis.set_ylabel("y")
     axis.grid()
-    axis.plot(x, y, "bo")
+    axis.plot(x, y, color+"o-")
 
     # Convert plot to PNG image
     pngImage = io.BytesIO()
@@ -50,6 +54,6 @@ def function():
     image = "data:image/png;base64,"
     image += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
-    return render_template('calculator.html', math='Function', inptTxt='Enter Expression Below', extra='f(x)=',
+    return render_template('calculator.html', math='Function', inptTxt='Enter Expression Below', extra=['Range:','f(x)='],
                            plt=image)
 

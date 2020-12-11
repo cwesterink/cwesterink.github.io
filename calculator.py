@@ -284,14 +284,20 @@ def functions(expression):
 
         return sort(expression)
 
-def fx(expression):
+def fx(expression,ranges):
     
-    z = np.arange(-15,15.25,0.25)
-    x = [z[i] for i in range(len(z))]
+    z = np.arange(0-ranges, float(ranges + 0.25), 0.25)
+
+    x = [i for i in z]
+
     y = []
 
     print(expression, "1st")
+
+
+
     for j in range(len(expression)):
+
         if expression[j] == "x":
             if expression[j - 1].isnumeric() == True or expression[j-1] == ')':
                 expression = expression[:j] + "*x" + expression[j + 1:]
