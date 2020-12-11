@@ -29,6 +29,6 @@ def function():
 
         plt.grid()
         #plt.show()
-        plt.savefig('cwesterink.github.io/static/plt.png')  # save the figure to file
+        plt.savefig('/static/plt.png')  # save the figure to file
         plt.close(plt)
     return render_template('calculator.html', math='Function', inptTxt='Enter Expression Below', extra='f(x)=')
