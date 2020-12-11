@@ -304,12 +304,9 @@ def fx(expression):
 
         y += [functions(expression)]
 
-    plt.scatter(x, y)
+    return x, y
 
-    plt.grid()
-    plt.show()
-    plt.savefig('/static/plt.png')  # save the figure to file
-    plt.close(plt)
+
     
 
 
