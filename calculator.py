@@ -126,6 +126,7 @@ def sort(inpt):
 
         calculate()
 
+
     if Dbz == True:
         print("division by zero :/")
         return None
@@ -254,17 +255,16 @@ def functions(expression):
             l = expression.find(")", f)
             num = expression[f:l]
 
-
-            expression = expression[:f - 5] + sqrt(mathy(num)) + expression[l + 1:]
-
+            try:
+                expression = expression[:f - 5] + sqrt(mathy(num)) + expression[l + 1:]
+            except:
+                return 'error'
         elif "sin(" in expression:
             f = expression.find("sin(")
             l = expression.find(")", f)
             num = expression[f+4:l]
+            expression = expression[:f] + str(math.sin(mathy(num))) + expression[l + 1:]
 
-            num = str(math.sin(float(num)))
-
-            expression = expression[:f] +  str(math.tan(mathy(num))) + expression[l + 1:]
         elif "cos(" in expression:
             f = expression.find("cos(")
             l = expression.find(")", f)
@@ -304,7 +304,8 @@ def fx(expression,ranges):
     print(x)
     xpression = expression
     for i in range(len(x)):
-
+        if 'error' in y:
+            return False,False
 
         expression = xpression.replace("x", str(x[i]))
 

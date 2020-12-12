@@ -4,16 +4,16 @@
 {% block content %}
 
 <h1><center>{{math}}</center></h1>
-<form action ="/math/{{math.lower()}}", method = "post">
+
     {% if math == 'Function' %}
         <table style="width:100%" border="1">
             <tr>
                 <td>
-                <center>
+                    <form action ="/math/{{math.lower()}}", method = "post"><center>
                     <h2>Settings</h2>
                     <label for="r">Range:</label>
-                    <input type="number" id="r" name = 'range', min="10", step="5"><br>
-                    <input type="radio" id="black" name="color" value="k">
+                    <input type="number" id="r" name = 'range', min="10", step="5" value="10"><br>
+                    <input type="radio" id="black" name="color" value="k" checked>
                     <label for="black">black</label><br>
                     <input type="radio" id="red" name="color" value="r">
                     <label for="red">Red</label><br>
@@ -24,9 +24,9 @@
                     <input type="radio" id="blue" name="color" value="b">
                     <label for="blue">Blue</label><br>
 
-                    {{extra[1]}}<input type="text" name = "input">
+                    y=<input type="text" name = "input" value="">
                     <input type="submit" value = "Graph">
-                </center>
+                    </center></form>
                 </td>
 
                 <td><center>
@@ -42,26 +42,24 @@
                 </center></td>
             </tr>
         </table>
-
+        <center><img src= '{{ plt }}' alt="_" height="750" width="1500"/></center>
 
 
     {% endif %}
     {% if math == 'Calculator' %}
+    <form action ="/math/{{math.lower()}}", method = "post">
         <center><p>
             <label for="c">Enter expression:</label><br>
-            {{extra[1]}}<input type="text" id='c' name = "input">
+            <input type="text" id='c' name = "input">
         <input type="submit" value = "Calculate"></p></center>
+    </form>
     {% endif %}
 
-</form>
+
 {% with messages = get_flashed_messages() %}
     {% for msg in messages %}
-        <p><center>{{msg}}</center></p>
+        <center>{{msg}}</center>
     {% endfor %}
 {% endwith %}
-
-   <center><img src= '{{ plt }}' alt="_" height="750" width="1500"/></center>
-
-
 
 {% endblock %}
