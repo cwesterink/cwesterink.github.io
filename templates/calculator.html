@@ -3,21 +3,55 @@
 {% block title %}Math{% endblock %}
 {% block content %}
 
-<h2><center>{{math}}</center></h2>
+<h1><center>{{math}}</center></h1>
 <form action ="/math/{{math.lower()}}", method = "post">
-    <h2>Settings</h2> {{extra[0]}}<input type="number" name = "range", min="10", step="5"><br>
-    <input type="radio" id="green" name="color" value="g">
-    <label for="green">Green</label><center><p>{{inptTxt}}</p></center><br>
-    <input type="radio" id="yellow" name="color" value="y">
-    <label for="yellow">Yellow</label>
-    <center><p>{{extra[1]}}<input type="text" name = "input"></p></center>
-    <center><p><input type="submit" value = "Calculate"></p></center>
+    {% if math == 'Function' %}
+        <table style="width:100%" border="1">
+            <tr>
+                <td>
+                <center>
+                    <h2>Settings</h2>
+                    <label for="r">Range:</label>
+                    <input type="number" id="r" name = 'range', min="10", step="5"><br>
+                    <input type="radio" id="black" name="color" value="k">
+                    <label for="black">black</label><br>
+                    <input type="radio" id="red" name="color" value="r">
+                    <label for="red">Red</label><br>
+                    <input type="radio" id="green" name="color" value="g">
+                    <label for="green">Green</label><br>
+                    <input type="radio" id="yellow" name="color" value="y">
+                    <label for="yellow">Yellow</label><br>
+                    <input type="radio" id="blue" name="color" value="b">
+                    <label for="blue">Blue</label><br>
+
+                    {{extra[1]}}<input type="text" name = "input">
+                    <input type="submit" value = "Graph">
+                </center>
+                </td>
+
+                <td><center>
+                    <h3>Available Functions</h3>
+                    <p>
+                        Random Number: rand(x,y)
+                        <br>Square Root: sqrt(x)
+                        <br>Absolute Value: |x|
+                        <br>Sin: sin(x)
+                        <br>Cos: cos(x)
+                        <br>Tan: tan(x)
+                    </p>
+                </center></td>
+            </tr>
+        </table>
 
 
-    <input type="radio" id="blue" name="color" value="b">
-    <label for="blue">Blue</label><br>
-    <input type="radio" id="red" name="color" value="r">
-    <label for="red">Red</label>
+
+    {% endif %}
+    {% if math == 'Calculator' %}
+        <center><p>
+            <label for="c">Enter expression:</label><br>
+            {{extra[1]}}<input type="text" id='c' name = "input">
+        <input type="submit" value = "Calculate"></p></center>
+    {% endif %}
 
 </form>
 {% with messages = get_flashed_messages() %}
@@ -28,16 +62,6 @@
 
    <center><img src= '{{ plt }}' alt="_" height="750" width="1500"/></center>
 
-<h3>Avaliable Functions</h3>
-<p1>
-	Random Number: rand(x,y)
-	<br>Sqare Root: sqrt(x)
-	<br>Absolute Value: |x|
-	<br>Sin: sin(x)
-	<br>Cos: cos(x)
-	<br>Tan: tan(x)
 
 
-
-</p1>
 {% endblock %}
