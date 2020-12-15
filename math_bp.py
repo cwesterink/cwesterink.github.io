@@ -21,7 +21,7 @@ def calc():
         session['calcInpt'] = request.form['input']
         num = mathy(session['calcInpt'])
         flash(session['calcInpt'])
-        flash(session['calcInpt']+' = '+num)
+        flash(session['calcInpt']+' = '+str(num))
     return render_template('calculator.html', math='Calculator', inptTxt='Enter Calculation Below:', extra='')
 
 
