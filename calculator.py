@@ -88,6 +88,7 @@ def sort(inpt):
 
         char = inpt[i]
         if Dbz == True:
+            print('portal1')
             return None
         if neg == True:
             a = nums.insert(0, int(str("-" + char)))
@@ -129,10 +130,12 @@ def sort(inpt):
 
     if Dbz == True:
         print("division by zero :/")
+        print('portal2')
         return None
     try:
         answer = float(nums[0])
     except:
+        print('portal')
         return None
     else:
         if str(answer).endswith(".0"):
@@ -225,12 +228,14 @@ def functions(expression):
     global ans
     func = True
     while func == True:
-
+        print(expression)
+        print(expression,expression.isdecimal())
         if "ans" in expression:
             ans = str(ans)
             f = expression.find("ans")
             expression = expression.replace("ans", ans)
         elif expression.isalnum() or '=' in expression:
+            print('portal0')
             return None
         elif "rand(" in expression:
             f = expression.find("rand(")
@@ -254,11 +259,12 @@ def functions(expression):
             f = expression.find("sqrt(") + 5
             l = expression.find(")", f)
             num = expression[f:l]
-
-            try:
-                expression = expression[:f - 5] + sqrt(mathy(num)) + expression[l + 1:]
-            except:
-                return 'error'
+            num = mathy(num)
+            print(num)
+            #try:
+            expression = expression[:f - 5] + sqrt(num) + expression[l + 1:]
+            #except:
+                #return 'error'
         elif "sin(" in expression:
             f = expression.find("sin(")
             l = expression.find(")", f)
