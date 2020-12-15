@@ -34,7 +34,7 @@ def log():
 def home():
     if request.method =="GET" or request.method =='POST':
         if log():
-            flash(f"Welsome {session['user']},you are logged in ")
+            flash(f"Welcome {session['user']}, you are logged in!")
         else:
             flash('you are not logged in')
         return render_template("home.html",login=log())
