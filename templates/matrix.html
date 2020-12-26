@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends "base.html"%}
+{% block title %}Math{% endblock %}
+{% block content %}
+
+<h1><center>Matrix</center></h1>
+
+    <table style="width:100%" border="1">
+        <tr><td><TITLE>My Matrixes</TITLE>></td>
+            
+
+
+        </tr>
+
+
+
+
+    </table>
+
+
+{% with messages = get_flashed_messages() %}
+    {% for msg in messages %}
+        <center>{{msg}}</center>
+    {% endfor %}
+{% endwith %}
+
+{% endblock %}
