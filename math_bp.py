@@ -56,4 +56,4 @@ def function():
     return render_template('calculator.html', math='Function')
 @math_bp.route('/matrix', methods=['POST','GET'])
 def matrix():
-    render_template('matrix.html')
+    return render_template('matrix.html')
