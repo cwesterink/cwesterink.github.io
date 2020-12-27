@@ -57,7 +57,7 @@ def function():
 @math_bp.route('/matrix', methods=['POST','GET'])
 def matrix():
     if request.method == "POST":
-        return 'request.name'
+        return request.name
 
 
 
