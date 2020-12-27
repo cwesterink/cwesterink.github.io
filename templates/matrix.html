@@ -6,23 +6,28 @@
 <h1><center>Matrix</center></h1>
 
     <table style="width:100%" border="1">
-        <tr><td><h1>My Matrixes</h1>
-            {% for i in mats %}
-            <p>{{i}}</p>
-            {% endfor %}
-        </td>
-        <td>
-            <h1>New Matrix</h1>
-            <form action ="#", method = "post">
-                <label for="c">Enter expression:</label><br>
-                <input type="text" id='c' name = "input">
-                <input type="submit" value = "Calculate"></p></center>
-
-            </form>
-        
-
-
-        </td>
+        <tr>
+            <td>
+                <center>
+                    <h1>My Matrixes</h1>
+                    {% for i in mats %}
+                        <p>{{i}}</p>
+                    {% endfor %}
+                </center>
+             </td>
+            <td>
+                <center>
+                    <h1>New Matrix</h1>
+                    <form action ="#", method = "post">
+                        <label for="name">Enter name:</label><br>
+                        <input type="text" id='name' name = "input">
+                        <br>
+                        <label for="name">Enter name:</label><br>
+                        <input type="text" id='name' name = "input">
+                        <input type="submit" value = "Calculate"></p>
+                    </form>
+                </center>
+            </td>
             
 
 
