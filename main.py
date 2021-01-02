@@ -8,8 +8,7 @@ import random as rand
 
 app = Flask(__name__)
 
-#app.register_blueprint(chat, url_prefix='/chat')
-app.register_blueprint(math_bp, url_prefix='/math')
+
 
 
 
@@ -17,6 +16,13 @@ app.secret_key = "const"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+
+#app.register_blueprint(chat, url_prefix='/chat')
+app.register_blueprint(math_bp, url_prefix='/math')
+
+
+
 class rooms(db.Model):
     _id = db.Column('id', db.Integer, primary_key=True)
     code = db.Column(db.Integer)
@@ -26,12 +32,14 @@ class rooms(db.Model):
         self.code = code
         self.msg = msg
         self.members = members
+
 def log():
     if 'user' in session:
         return True
     return False
 @app.route('/', methods =["POST","GET"])
 def home():
+    session['matrix'] = dict()
     if request.method =="GET" or request.method =='POST':
         if log():
             flash(f"Welcome {session['user']}, you are logged in!")

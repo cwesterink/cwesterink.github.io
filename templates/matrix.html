@@ -7,36 +7,77 @@
 
     <table style="width:100%" border="1">
         <tr>
-            <td>
+            <td style="width:50%;">
                 <center>
                     <h1>My Matrixes</h1>
-                    {% for i in mats %}
-                        <p>{{i}}</p>
+                    {% for m in mats%}
+                        <p>{{m}}</p>
                     {% endfor %}
+                    
                 </center>
-             </td>
+            </td>
             <td>
                 <center>
                     <h1>New Matrix</h1>
-                    <form action ="#", method = "post">
+                    <form action ="#", method = "post", name="new">
                         <label for="name">Enter name:</label><br>
                         <input type="text" id='name' name = "name">
                         <br>
 
                         <label for="input">New Row</label><br>
                         <input type="text" id='input' name = "matrix">
-                        <input type="submit" value = "Add Matrix"></p>
+                        <input type="submit" value = "Add Matrix">
                     </form>
                 </center>
             </td>
-            
-
-
         </tr>
+        <tr>
+            <td colspan="2">
+            <center>
+               
+                <h1>Calculate</h1>
+                <form action ="#", method = "post", name="new">
+                        <label for="calculation">Calculate</label><br>
+                        <input type="text" id='calculation' name = "calculation">
+                        <input type="submit" value = "Enter">
+                </form>
+           </center> 
+        </td>
+            {% if r == 'True' %}
+            </tr>
+                <table align="center"><tr>
+                <td  align="right">
+                    {% for row in a %}
+                    <p>|{{row}}|</p>
+                    {% endfor %}
+                </td>
 
+                <td height="center">
+                    
+                    <p>{{x[0]}}</p>
+                    
+                </td>
 
+                <td >
+                    {% for i in b %}
 
+                    <p>  |{{i}}|  =  </p>
+                    {% endfor %}
 
+                </td>
+
+                 <td>
+               
+                    {% for row in answer %}
+                    <p>|{{row}}|</p>
+                    {% endfor %}
+                    
+                </td>
+                </tr></table>
+
+                </center></td>>
+            </tr>
+            {% endif %}
     </table>
 
 
