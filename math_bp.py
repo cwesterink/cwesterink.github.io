@@ -47,7 +47,7 @@ def function():
         axis.set_xlabel("x")
         axis.set_ylabel("y")
         axis.grid()
-        axis.plot(x, y, color+"o")
+        axis.plot(x, y, color+"-")
 
         # Convert plot to PNG image
         pngImage = io.BytesIO()
