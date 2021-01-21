@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, redirect, request, url_for, session, flash, make_response, Response
-from flask_sqlalchemy import SQLAlchemy
 
 import base64
 import matplotlib.pyplot as plt
@@ -23,7 +22,7 @@ math_bp.secret_key = "const"
 def calc():
     if request.method == 'POST':
         session['calcInpt'] = request.form['input']
-        num = mathy(session['calcInpt'])
+        num = eval(session['calcInpt'])
         flash(session['calcInpt'])
         flash(session['calcInpt']+' = '+str(num))
     return render_template('calculator.html', math='Calculator', inptTxt='Enter Calculation Below:', extra='')
