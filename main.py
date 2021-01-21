@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 #from chat import chat
 from math_bp import math_bp
+from flask_wtf import FlaskForm
 
 import random as rand
 

@@ -10,22 +10,17 @@
             <tr>
                 <td>
                     <form action ="/math/{{math.lower()}}", method = "post"><center>
-                    <h2>Settings</h2>
-                    <label for="r">Range:</label>
-                    <input type="number" id="r" name = 'range', min="10", step="5" value="10"><br>
-                    <input type="radio" id="black" name="color" value="k" checked>
-                    <label for="black">black</label><br>
-                    <input type="radio" id="red" name="color" value="r">
-                    <label for="red">Red</label><br>
-                    <input type="radio" id="green" name="color" value="g">
-                    <label for="green">Green</label><br>
-                    <input type="radio" id="yellow" name="color" value="y">
-                    <label for="yellow">Yellow</label><br>
-                    <input type="radio" id="blue" name="color" value="b">
-                    <label for="blue">Blue</label><br>
+                        {{ form.hidden_tag() }}
+                        <p>{{ form.range.label }}
+                        {{ form.range() }}</p>
+                        <p>{% for color in form.color %}
+                            {{ color }}{{ color.label }}<br>
+                        {% endfor %}</p>
+                        {{ form.function.label }}{{form.function() }}
+                        {{ form.submit }}
 
-                    y=<input type="text" name = "input" value="">
-                    <input type="submit" value = "Graph">
+
+
                     </center></form>
                 </td>
 
@@ -42,7 +37,8 @@
                 </center></td>
             </tr>
         </table>
-        <center><img src= '{{ plt }}' alt="_" height="750" width="1500"/></center>
+
+        <center><img src= "{{ plt | default(url_for('static',filename='logo.png')) }}" alt="{{url_for('static',filename='logo.png')}}" height="750" width="1500"/></center>
 
 
     {% endif %}

@@ -147,7 +147,7 @@ def simplify(expression,o):
         return None
 
     elif o =='c':
-        return functions(expression)
+        return 3#functions(expression)
     elif expression[0:2] == "y=":
         l = int(input("interval: "))
         expression = expression[2:]
@@ -173,7 +173,7 @@ def simplify(expression,o):
             expression = expression.replace("++", "+")
             expression = expression.replace("+-", "-")
 
-            y += [functions(expression)]
+            #y += [functions(expression)]
 
         plt.scatter(x, y)
 
@@ -203,7 +203,7 @@ def simplify(expression,o):
             expression = expression.replace("++", "+")
             expression = expression.replace("+-", "-")
 
-            Un += [functions(expression)]
+            #Un += [functions(expression)]
             print(Un[i])
 
         n = [int(n)]+ [i for i in range(int(n)+1,Ux)]
@@ -218,81 +218,16 @@ def simplify(expression,o):
 
     else:
 
-        return functions(expression)
-def functions(expression):
+        return 3#functions(expression)
 
-    global ans
-    func = True
-    while func == True:
-        print(expression)
-        print(expression,expression.isdecimal())
-        if "ans" in expression:
-            ans = str(ans)
-            f = expression.find("ans")
-            expression = expression.replace("ans", ans)
-        
-        elif "rand(" in expression:
-            f = expression.find("rand(")
-            l = expression.find(")", f)
-            split = expression.find(",", f, l)
-            floor = expression[f + 5:split]
-            roof = expression[split + 1:l]
-
-            num = random(floor,roof)
-            expression = expression[:f] + num + expression[l + 1:]
-
-        elif "|" in expression:
-
-            f = expression.find("|") + 1
-            l = expression.find("|", f)
-            num = expression[f:l]
-
-            expression = expression[:f - 1] + abv(mathy(num)) + expression[l + 1:]
-
-        elif "sqrt" in expression:
-            f = expression.find("sqrt(") + 5
-            l = expression.find(")", f)
-            num = expression[f:l]
-            num = mathy(num)
-            print(num)
-            #try:
-            expression = expression[:f - 5] + sqrt(num) + expression[l + 1:]
-            #except:
-                #return 'error'
-        elif "sin(" in expression:
-            f = expression.find("sin(")
-            l = expression.find(")", f)
-            num = expression[f+4:l]
-            expression = expression[:f] + str(sin(mathy(num))) + expression[l + 1:]
-
-        elif "cos(" in expression:
-            f = expression.find("cos(")
-            l = expression.find(")", f)
-            num = expression[f + 4:l]
-            print(num)
-            expression = expression[:f] + str(cos(mathy(num))) + expression[l + 1:]
-        elif "tan(" in expression:
-            f = expression.find("tan(")
-            l = expression.find(")", f)
-            num = expression[f + 4:l]
-
-            expression = expression[:f] + str(tan(mathy(num))) + expression[l + 1:]
-
-        else:
-            func = False
-    if func == False:
-
-        return sort(expression)
 
 def fx(expression,ranges):
     
     z = np.arange(0-ranges, float(ranges + 0.25), 0.25)
 
     x = [i for i in z]
-    print(x)
     y = []
 
-    print(expression, "1st")
 
 
 
@@ -301,32 +236,17 @@ def fx(expression,ranges):
         if expression[j] == "x":
             if expression[j - 1].isnumeric() == True or expression[j-1] == ')':
                 expression = expression[:j] + "*x" + expression[j + 1:]
-    print(expression)
-    xpression = expression
 
     for i in x:
         f = {"x": i, 'cos': cos, 'tan':tan, 'sin':sin,'sqrt':sqrt,'pi':pi,"e":e,'abs':fabs,"π":pi}
 
 
         try:
-            print(expression,i)
             y += [eval(expression, f)]
         except:
-            print(i)
             y += [None]
 
     return x, y
-
-
-    
-
-
-
-
-def mathy(x):
-
-    return functions(x)
-
 
 
 

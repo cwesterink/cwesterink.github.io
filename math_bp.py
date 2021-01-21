@@ -1,18 +1,22 @@
-from flask import Blueprint, render_template, redirect, request, url_for, session, flash, make_response, Response
-
 import base64
-import matplotlib.pyplot as plt
 import io
+from math import *
+
+from flask import Blueprint, render_template, request, session, flash
+
+# form instalations
+from flask_wtf import FlaskForm
+from wtforms import StringField, IntegerField, RadioField, TextAreaField, SubmitField
+from wtforms.validators import DataRequired
+
+
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-
-from matrix import isValid
-from matrix import calcMatrix
-
 # import math functions
-from calculator import mathy
 from calculator import fx
+from matrix import calcMatrix
+from matrix import isValid
 
 math_bp = Blueprint('math_bp', __name__, static_folder='static', template_folder='templates')
 math_bp.secret_key = "const"
@@ -22,8 +26,9 @@ math_bp.secret_key = "const"
 def calc():
     if request.method == 'POST':
         session['calcInpt'] = request.form['input']
+        f = { 'cos': cos, 'tan': tan, 'sin': sin, 'sqrt': sqrt, 'pi': pi, "e": e, 'abs': fabs, "π": pi}
         try:
-            num = eval(session['calcInpt'])
+            num = eval(session['calcInpt'], f)
         except:
             num = 'error could not calculate'
         else:
@@ -36,11 +41,18 @@ def calc():
 
 
 def function():
+    class FunctionForm(FlaskForm):
+        range = IntegerField("Enter x range", validators= [DataRequired()])
+        colors = [("k", "Black"), ("b", "Blue"), ("r", "Red"),("g","Green"), ("y", "Yellow")]
+        color = RadioField("Type", choices=colors, validators=[DataRequired()])
+        function = StringField("y= ", validators=[DataRequired()])
+        submit = SubmitField("Enter")
 
-    if request.method == 'POST':
-        inpt = str(request.form['input'])
-        color = str(request.form['color'])
-        ranges = int(request.form['range'])
+    form = FunctionForm()
+    if form.validate_on_submit():
+        inpt = form.function.data
+        color = form.color.data
+        ranges = form.range.data
         x, y = fx(inpt, ranges)
 
         # Generate plot
@@ -60,9 +72,9 @@ def function():
         image = "data:image/png;base64,"
         image += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
-        return render_template('calculator.html', math='Function', plt=image)
+        return render_template('calculator.html', math='Function', form = form ,plt=image)
 
-    return render_template('calculator.html', math='Function')
+    return render_template('calculator.html', math='Function', form = form)
 
 
 
