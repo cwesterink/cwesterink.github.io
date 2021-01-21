@@ -22,9 +22,13 @@ math_bp.secret_key = "const"
 def calc():
     if request.method == 'POST':
         session['calcInpt'] = request.form['input']
-        num = eval(session['calcInpt'])
-        flash(session['calcInpt'])
-        flash(session['calcInpt']+' = '+str(num))
+        try:
+            num = eval(session['calcInpt'])
+        except:
+            num = 'error could not calculate'
+        else:
+            flash(session['calcInpt'])
+            flash(session['calcInpt']+' = '+str(num))
     return render_template('calculator.html', math='Calculator', inptTxt='Enter Calculation Below:', extra='')
 
 

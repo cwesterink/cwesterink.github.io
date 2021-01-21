@@ -18,11 +18,7 @@ def abv(num):
         num = num - (2 * num)
     return str(num)
 
-def sqrt(num):
-    if num < 0:
-        return False
-    num = math.sqrt(num)
-    return str(num)
+
 
 def pfctSqr(num):
     num = sqrt(num)
@@ -267,20 +263,20 @@ def functions(expression):
             f = expression.find("sin(")
             l = expression.find(")", f)
             num = expression[f+4:l]
-            expression = expression[:f] + str(math.sin(mathy(num))) + expression[l + 1:]
+            expression = expression[:f] + str(sin(mathy(num))) + expression[l + 1:]
 
         elif "cos(" in expression:
             f = expression.find("cos(")
             l = expression.find(")", f)
             num = expression[f + 4:l]
             print(num)
-            expression = expression[:f] + str(math.cos(mathy(num))) + expression[l + 1:]
+            expression = expression[:f] + str(cos(mathy(num))) + expression[l + 1:]
         elif "tan(" in expression:
             f = expression.find("tan(")
             l = expression.find(")", f)
             num = expression[f + 4:l]
 
-            expression = expression[:f] + str(math.tan(mathy(num))) + expression[l + 1:]
+            expression = expression[:f] + str(tan(mathy(num))) + expression[l + 1:]
 
         else:
             func = False
@@ -293,7 +289,7 @@ def fx(expression,ranges):
     z = np.arange(0-ranges, float(ranges + 0.25), 0.25)
 
     x = [i for i in z]
-
+    print(x)
     y = []
 
     print(expression, "1st")
@@ -305,20 +301,19 @@ def fx(expression,ranges):
         if expression[j] == "x":
             if expression[j - 1].isnumeric() == True or expression[j-1] == ')':
                 expression = expression[:j] + "*x" + expression[j + 1:]
-    print(x)
+    print(expression)
     xpression = expression
-    for i in range(len(x)):
-        if 'error' in y:
-            return False,False
 
-        expression = xpression.replace("x", str(x[i]))
+    for i in x:
+        f = {"x": i, 'cos': cos, 'tan':tan, 'sin':sin,'sqrt':sqrt,'pi':pi,"e":e,'abs':fabs,"π":pi}
 
-        expression = expression.replace("--", "+")
-        expression = expression.replace("-+", "-")
-        expression = expression.replace("++", "+")
-        expression = expression.replace("+-", "-")
 
-        y += [functions(expression)]
+        try:
+            print(expression,i)
+            y += [eval(expression, f)]
+        except:
+            print(i)
+            y += [None]
 
     return x, y
 
