@@ -18,7 +18,7 @@ from calculator import fx
 from matrix import calcMatrix
 from matrix import isValid
 
-math_bp = Blueprint('math_bp', __name__, static_folder='static', template_folder='templates')
+math_bp = Blueprint('account_bp', __name__, static_folder='static', template_folder='templates')
 math_bp.secret_key = "const"
 
 

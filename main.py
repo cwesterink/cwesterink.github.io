@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 #from chat import chat
 from math_bp import math_bp
+from account_bp import account_bp
 from flask_wtf import FlaskForm
 
 import random as rand
@@ -18,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
+app.register_blueprint(account, url_prefix='/account')
 #app.register_blueprint(chat, url_prefix='/chat')
 app.register_blueprint(math_bp, url_prefix='/math')
 
