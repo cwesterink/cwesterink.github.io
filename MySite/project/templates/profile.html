@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{ name }}  !!!
+</h1>
+<center>
+    <img src="data:;base64,{{ image }}" width="300" height="300" alt="{url_for('static', filename='profilePic.jpeg')}}">
+
+
+
+</center>
+{% endblock %}

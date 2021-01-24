@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends "base.html"%}
+
+{% block title %}Register{% endblock %}
+
+
+{% block content %}
+
+<h2><center>Register</center></h2>
+<br><br>
+<center>
+     <p>Already a member? Login<a href="{{url_for('account_bp.login')}}"> Here</a></p>
+    <form action="{{url_for('account_bp.register')}}" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+    <p>{{ form.username.label }}
+    {{form.username() }}</p>
+
+    <p>{{ form.email.label }}
+        {{ form.email(size=30) }}</p>
+    <p>{{ form.password.label }}
+        {{ form.password() }}</p>
+    <p>{{ form.password2.label }}
+        {{ form.password2() }}</p>
+    <p>{{ form.profile_photo() }}</p>
+    <p><error>{{error|default('')}}</error></p>
+    <p>{{ form.submit() }}</p>
+
+    </form>
+</center>
+{% endblock %}

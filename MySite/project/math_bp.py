@@ -4,21 +4,18 @@ from math import *
 
 from flask import Blueprint, render_template, request, session, flash
 
-# form instalations
-from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, RadioField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired
 
 
+from .forms import FunctionForm
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 # import math functions
-from calculator import fx
-from matrix import calcMatrix
-from matrix import isValid
+from .calculator import fx
+from .matrix import calcMatrix
+from .matrix import isValid
 
-math_bp = Blueprint('account_bp', __name__, static_folder='static', template_folder='templates')
+math_bp = Blueprint('math_bp', __name__, static_folder='static', template_folder='templates')
 math_bp.secret_key = "const"
 
 
@@ -41,12 +38,7 @@ def calc():
 
 
 def function():
-    class FunctionForm(FlaskForm):
-        range = IntegerField("Enter x range", validators= [DataRequired()])
-        colors = [("k", "Black"), ("b", "Blue"), ("r", "Red"),("g","Green"), ("y", "Yellow")]
-        color = RadioField("Type", choices=colors, validators=[DataRequired()])
-        function = StringField("y= ", validators=[DataRequired()])
-        submit = SubmitField("Enter")
+
 
     form = FunctionForm()
     if form.validate_on_submit():

@@ -1,54 +1,27 @@
-from flask import Flask, render_template, redirect, request, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
-#from chat import chat
-from math_bp import math_bp
-from account_bp import account_bp
-from flask_wtf import FlaskForm
-
-import random as rand
-
-
-app = Flask(__name__)
 
 
 
+from flask import Blueprint, render_template, session,request, flash
+from flask_login import login_required, current_user
 
+main_bp = Blueprint('main_bp', __name__, static_folder='static', template_folder='templates')
 
-app.secret_key = "const"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-app.config['SQlALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-app.register_blueprint(account, url_prefix='/account')
-#app.register_blueprint(chat, url_prefix='/chat')
-app.register_blueprint(math_bp, url_prefix='/math')
-
-
-
-class rooms(db.Model):
-    _id = db.Column('id', db.Integer, primary_key=True)
-    code = db.Column(db.Integer)
-    msg = db.Column(db.String)
-    members = db.Column(db.Integer)
-    def __init__(self, code, msg, members):
-        self.code = code
-        self.msg = msg
-        self.members = members
-
-def log():
-    if 'user' in session:
-        return True
-    return False
-@app.route('/', methods =["POST","GET"])
-def home():
+@main_bp.route('/', methods=['POST', "GET"])
+def index():
     session['matrix'] = dict()
-    if request.method =="GET" or request.method =='POST':
-        if log():
-            flash(f"Welcome {session['user']}, you are logged in!")
-        else:
-            flash('you are not logged in')
-        return render_template("home.html",login=log())
-    
+    if request.method == "GET" or request.method == 'POST':
+        return render_template("index.html")
+
+
+
+
+
+
+
+
+
+
+"""
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "GET":
@@ -134,7 +107,5 @@ def random():
     return redirect(url_for('room'))
 
 
+"""
 
-if __name__ == "__main__":
-    db.create_all()
-    app.run(debug=True)

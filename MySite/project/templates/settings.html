@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{ name }}  !!!
+</h1>
+<center>
+    <img src="data:;base64,{{ image }}" width="300" height="300"  alt="{url_for('static', filename='profilePic.jpeg')}}">
+    <form method="Post", action="#" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+
+        <p>{{ form.profile_photo() }}
+           </p>
+        {{ form.submit() }}
+    </form>
+
+
+</center>
+{% endblock %}
