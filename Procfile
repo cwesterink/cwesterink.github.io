@@ -1,2 +1,2 @@
-web: gunicorn --bind 0.0.0.0:$PORT project:app
+web: gunicorn --bind 0.0.0.0:$PORT MySite/project:app
 
