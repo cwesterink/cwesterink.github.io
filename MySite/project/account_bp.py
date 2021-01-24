@@ -15,6 +15,7 @@ from .forms import RegistrationForm, LoginForm, SettingsForm
 from urllib.parse import urlparse, urljoin
 
 
+
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
