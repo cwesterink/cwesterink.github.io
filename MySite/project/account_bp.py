@@ -10,6 +10,7 @@ from werkzeug.datastructures import CombinedMultiDict
 from .models import User
 from . import db
 #form imports
+
 from .forms import RegistrationForm, LoginForm, SettingsForm
 from urllib.parse import urlparse, urljoin
 
