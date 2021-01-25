@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-
+    x = 2
     app.config['SECRET_KEY'] = 'const'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
     #app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
