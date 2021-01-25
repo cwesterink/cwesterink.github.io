@@ -36,9 +36,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
-        <li class="nav-item">
+
+{% if user.is_active %}
+   <li class="nav-item">
+        <a class="nav-link " href="/settings">My account</a>
+        </li>
+{% else %}
+    <li class="nav-item">
         <a class="nav-link " href="/login">Login</a>
         </li>
+{% endif %}
 
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chat</a>
@@ -61,6 +68,7 @@
 
         </div>
         </nav>
+
         {% block content %}
 
         {% endblock %}

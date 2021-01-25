@@ -1,12 +1,20 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user,login_user, logout_user, login_required
+
 from sqlalchemy.exc import SQLAlchemyError
 
 db = SQLAlchemy()
 
+
+
+
+
 def create_app():
+
     app = Flask(__name__)
+
+
     x = 2
     app.config['SECRET_KEY'] = 'const'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -15,13 +23,13 @@ def create_app():
 
     login_manager = LoginManager()
     login_manager.login_view = 'account_bp.login'
+    #login_manager.anonymous_user = None
     login_manager.init_app(app)
 
     from .models import User
 
     @login_manager.user_loader
     def load_user(user_id):
-        print("loginMGR")
         return User.query.get(int(user_id))
 
     # Blueprint Setup
@@ -37,3 +45,5 @@ def create_app():
     return app
 
 app = create_app()
+
+app.jinja_env.globals['user'] = current_user

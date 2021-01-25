@@ -19,8 +19,7 @@ class RegistrationForm(FlaskForm):
 
 # login form
 class LoginForm(FlaskForm):
-  email = StringField('Email',
-                      validators=[DataRequired(), Email()])
+  username = StringField('Username', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
   remember = BooleanField('Remember Me')
   submit = SubmitField('Login')
@@ -39,6 +38,6 @@ class SettingsForm(FlaskForm):
   profile_photo = FileField(validators=[FileAllowed(['jpg', 'png'], 'images only')])
   submit = SubmitField("Update Settings")
 
-#logut Form
-class Logout(FlaskForm):
+#logout Form
+class LogoutForm(FlaskForm):
   logout = SubmitField("Logout")

@@ -2,16 +2,25 @@
 
 {% block content %}
 <h1 class="title">
-  Welcome, {{ name }}  !!!
+    <center>{{name| title}}'s Settings</center>
 </h1>
-<center>
-    <img src="data:;base64,{{ image }}" width="300" height="300"  alt="{url_for('static', filename='profilePic.jpeg')}}">
-    <form method="Post", action="#" enctype="multipart/form-data">
-      {{ form.hidden_tag() }}
+<form method="GET" action="/logout">
+    {{logoutForm.logout()}}
 
-        <p>{{ form.profile_photo() }}
+</form>
+<center>
+    {% if image != None %}
+            <img src="data:;base64,{{ image }}" width="300" height="300"  alt="Image">
+    {% else %}
+        <img src="{{url_for('static', filename='profilePic.jpeg') }}" width="300" height="300" >
+    {% endif %}
+
+    <form method="Post", action="#" enctype="multipart/form-data">
+      {{ settingsForm.hidden_tag() }}
+
+        <p>{{ settingsForm.profile_photo() }}
            </p>
-        {{ form.submit() }}
+        {{ settingsForm.submit() }}
     </form>
 
 

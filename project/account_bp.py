@@ -1,19 +1,18 @@
-#Flask imports
+# Flask imports
 import base64
 from io import BytesIO
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash, abort, send_file
 from flask_login import login_user, logout_user, login_required, current_user
-#Database imports
+# Database imports
 from werkzeug.datastructures import CombinedMultiDict
 
 from .models import User
 from . import db
-#form imports
+# form imports
 
-from .forms import RegistrationForm, LoginForm, SettingsForm
+from .forms import RegistrationForm, LoginForm, SettingsForm, LogoutForm
 from urllib.parse import urlparse, urljoin
-
 
 
 def is_safe_url(target):
@@ -29,16 +28,23 @@ account_bp = Blueprint('account_bp', __name__, static_folder='static', template_
 # registration route
 @account_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
+
     if current_user.is_authenticated:
         flash("you are already logged in")
         return redirect(url_for('main_bp.index'))
+
+
+
+    form = RegistrationForm()
+
     if request.method == "POST":
         if form.validate_on_submit():
 
-            # define user with data from form here:
-            user = User(username=form.username.data, email=form.email.data,image=form.profile_photo.data.read())
-            # set user's password here:
+            if form.profile_photo.data is None:
+                user = User(username=form.username.data, email=form.email.data)
+            else:
+                user = User(username=form.username.data, email=form.email.data, image=form.profile_photo.data.read())
+
             user.set_password(form.password.data)
             db.session.add(user)
             try:
@@ -64,42 +70,43 @@ def login():
     if request.method == "POST":
 
         if form.validate_on_submit():
-            user = User.query.filter_by(email=form.email.data).first()
+            user = User.query.filter_by(username=form.username.data).first()
             if user:  # if User exists
                 if user.check_password(form.password.data):  # if password matches
                     print("login success")
                     login_user(user, remember=form.remember.data)
 
                     next_page = request.args.get('next')
-
-                    # is_safe_url should check if the url is safe for redirects.
-                    # See http://flask.pocoo.org/snippets/62/ for an example.
                     if not is_safe_url(next_page):
                         return abort(400)
 
-                    return redirect(next_page or url_for('account_bp.profile', username = current_user.username))
-                    #return redirect(next_page) if next_page else redirect(url_for('account_bp.profile'))
+                    return redirect(next_page or url_for('account_bp.profile', username=current_user.username))
+                    # return redirect(next_page) if next_page else redirect(url_for('account_bp.profile'))
                     # return redirect(next_page) if next_page else redirect(url_for('main_bp.profile', _external=True,
                     # _scheme='https'))
                 else:  # password was incorrect
                     error = 'Incorrect Password. Try again.'
-            else:  # Email does not exist
-                error = 'Email not recognized'
+            else:  # User does not exist
+                error = 'User not recognized'
+
         else:  # non  valid email
-            # return render_template('login.html', form=form, error=error)
-            error = 'Please enter valid email.'
+            error = 'Please enter existing user.'
         return render_template('login.html', form=form, error=error)
     return render_template('login.html', form=form)
+
+
 @account_bp.route('/show')
 def show():
     user = User.query.all()
     b = ''
     for i in user:
-        a = [i.id, i.username, i.email, i.password_hash, i.image]
+        a = [i.id, i.username, i.email, i.password_hash]
 
         for s in a:
             b += str(s) + '<br>'
     return b
+
+
 @account_bp.route('/user/<username>')
 @login_required
 def profile(username):
@@ -108,37 +115,37 @@ def profile(username):
     if not user:
         return "user does not exist"
 
+    return render_template("profile.html", image=getImage(username), name=user.username)
 
-    return render_template("profile.html", image = getImage(username), name = user.username)
 
 @account_bp.route('/settings', methods=['POST', "GET"])
 @login_required
 def settings():
-    form = SettingsForm()
+    settingsForm = SettingsForm()
+    logoutForm = LogoutForm()
     if request.method == "POST":
 
-        if form.validate_on_submit():
-            if form.profile_photo is not None:
-                img = form.profile_photo
+        if settingsForm.validate_on_submit():
+            if settingsForm.profile_photo is not None:
+                img = settingsForm.profile_photo
                 print(img.name)
                 print(img.data)
-                user = User.query.filter_by(username = current_user.username).first()
-                user.image = form.profile_photo.data.read()
+                user = User.query.filter_by(username=current_user.username).first()
+                user.image = settingsForm.profile_photo.data.read()
                 db.session.commit()
-            return redirect(url_for('account_bp.profile', username = current_user.username))
+            return redirect(url_for('account_bp.profile', username=current_user.username))
         else:
             return "no impt"
 
-    return render_template('settings.html', name=current_user.username, form = form,image = getImage(current_user.username))
+    return render_template('settings.html', name=current_user.username, settingsForm=settingsForm, logoutForm=logoutForm,
+                           image=getImage(current_user.username))
 
 
 @account_bp.route('/logout', methods=['POST', "GET"])
 def logout():
     logout_user()
     flash("logged out")
-    return render_template('index.html')
-
-
+    return redirect(url_for('main_bp.index'))
 
 
 def getImage(username):
@@ -146,7 +153,5 @@ def getImage(username):
     try:
         image = base64.b64encode(user.image).decode('ascii')
     except:
-        print("broken")
         image = None
-    print("cobbled")
     return image

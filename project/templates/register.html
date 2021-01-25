@@ -21,7 +21,7 @@
         {{ form.password() }}</p>
     <p>{{ form.password2.label }}
         {{ form.password2() }}</p>
-    <p>{{ form.profile_photo() }}</p>
+    <p>Profile Picture (Optional):<br>      {{ form.profile_photo() }}</p>
     <p><error>{{error|default('')}}</error></p>
     <p>{{ form.submit() }}</p>
 
