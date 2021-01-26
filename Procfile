@@ -1,2 +1,2 @@
-web: gunicorn -k flask_sockets.worker project:app
+web: gunicorn --worker-class eventlet -w 1 project:app
 
