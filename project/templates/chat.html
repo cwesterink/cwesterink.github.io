@@ -1,48 +1,38 @@
-<!DOCTYPE html>
-{% extends "hide.html"%}
-{% block title %}Chat{% endblock %}
-{% block content %}
+<html>
+<head>
+<title>Chat Room</title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
 
-<h2><center>Code: {{code}}</center></h2>
-<p align='right'> active: {{members}}</p>
-<form action="/room/{{code}}" , method="post">
+<script type="text/javascript">
+$(document).ready(function() {
 
-    <input type="submit" value="Refresh">
-</form>
-<center><table border=1 width=100%>
-{% with messages = get_flashed_messages() %}
-    {% for msg in messages %}
-    <tr>
-        {% if msg.endswith('chat.') %}
-
-            <td bgcolor="white"><p align="left"><font color ="grey">{{msg}}</font></p></td>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 
-        {% else %}
+    socket.on('connect', function() {
+        socket.send(' has connected!');
+    });
 
-            {% if user in msg %}
-                <td><p align="right"><span style="background-color: #ADD8E6">{{msg}}</span></p></td>
+    socket.on('message', function(msg) {
+        $("#messages").append('<li>'+msg+'</li>');
+        console.log('Received message');
 
-            {% else %}
-                <td><p align="left"><span style="background-color: grey">{{msg}}</span></p></td>
-            {% endif %}
-        {% endif %}
+    });
 
+    $('#sendbutton').on('click', function() {
 
-    </tr>
-    {% endfor %}
-{% endwith %}
-</table></center>
+        socket.send(": "+ $('#myMessage').val());
+        $('#myMessage').val('');
+    });
 
+});
+</script>
+<ul id="messages"></ul>
 
-<form action ="/room/{{code}}", method = "post" >
-    <p align="right"><input type="text" name = "chat">
-    <input type="submit" value = "send"></p>
-</form>
-
-<form action ="/leave", method = "post" >
-    <input type="submit" value ='leave Room'>
-</form>
-
-{% endblock %}
-
+<input type="text" id="myMessage" placeholder="message">
+<button id="sendbutton">Send</button>
+</body>
+</html>

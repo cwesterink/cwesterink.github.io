@@ -105,16 +105,7 @@ def login():
     return render_template('login.html', form=form)
 
 
-@account_bp.route('/show')
-def show():
-    user = User.query.all()
-    b = ''
-    for i in user:
-        a = [i.id, i.username, i.email, i.password_hash]
 
-        for s in a:
-            b += str(s) + '<br>'
-    return b
 
 
 @account_bp.route('/user/<username>')

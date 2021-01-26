@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
+from flask_socketio import SocketIO
 
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -11,12 +12,12 @@ db = SQLAlchemy()
 
 
 def create_app():
-
+    global socketio
     app = Flask(__name__)
+    socketio = SocketIO(app, cors_allowed_origins='*')
 
-
-    x = 2
     app.config['SECRET_KEY'] = 'const'
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
@@ -43,13 +44,29 @@ def create_app():
     from .main_bp import main_bp
     app.register_blueprint(main_bp)
 
+    from .chat_bp import chat_bp
+    app.register_blueprint(chat_bp, url_prefix='/chat')
+
     return app
+
+
 
 app = create_app()
 
 
 
 
+#Below are global variables for jinja2
 app.jinja_env.globals['user'] = current_user
 from .forms import getImage
 app.jinja_env.globals['getImage'] = getImage
+
+print(__name__)
+if __name__ == 'project.__init__':
+	socketio.run(app, debug=True)
+
+
+
+
+
+
