@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
@@ -63,7 +65,7 @@ app.jinja_env.globals['getImage'] = getImage
 
 print(__name__)
 if __name__ == 'project.__init__':
-	socketio.run(app, debug=True)
+    socketio.run(app, port=int(os.environ.get('PORT', '5000')))
 
 
 
