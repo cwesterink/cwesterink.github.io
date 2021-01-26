@@ -2,23 +2,35 @@
 
 {% block content %}
 <h1 class="title">
-    <center>{{name| title}}'s Settings</center>
+    <center>{{user.username| title}}'s Settings</center>
 </h1>
 <form method="GET" action="/logout">
     {{logoutForm.logout()}}
 
 </form>
 <center>
-    {% if image != None %}
-            <img src="data:;base64,{{ image }}" width="300" height="300"  alt="Image">
+    {% if user.image != None %}
+            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
     {% else %}
         <img src="{{url_for('static', filename='profilePic.jpeg') }}" width="300" height="300" >
     {% endif %}
 
     <form method="Post", action="#" enctype="multipart/form-data">
+
       {{ settingsForm.hidden_tag() }}
 
-        <p>{{ settingsForm.profile_photo() }}
+        <p>{{ settingsForm.profile_photo.label }}:
+            {{ settingsForm.profile_photo() }}
+           </p>
+        <p>{{ settingsForm.bio.label }}:
+            {{ settingsForm.bio(size = 50) }}
+           </p>
+
+        <p>{{ settingsForm.gender.label }}:
+            {{ settingsForm.gender() }}
+           </p>
+        <p>{{ settingsForm.privacy.label }}:
+            {{ settingsForm.privacy() }}
            </p>
         {{ settingsForm.submit() }}
     </form>

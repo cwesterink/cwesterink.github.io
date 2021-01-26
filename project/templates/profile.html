@@ -2,11 +2,17 @@
 
 {% block content %}
 <h1 class="title">
-  Welcome, {{ name }}  !!!
+    <center>{{user.username}}</center>
 </h1>
 <center>
-    <img src="data:;base64,{{ image }}" width="300" height="300" alt="{url_for('static', filename='profilePic.jpeg')}}">
+    {% if user.image != None %}
+            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
+    {% else %}
+        <img src="{{url_for('static', filename='profilePic.jpeg') }}" width="300" height="300" >
+    {% endif %}
 
+    <p>Gender:<br> {{user.gender}}</p>
+    <p>{{user.bio}}</p>
 
 
 </center>

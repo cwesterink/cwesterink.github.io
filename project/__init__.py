@@ -18,6 +18,7 @@ def create_app():
     x = 2
     app.config['SECRET_KEY'] = 'const'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
     db.init_app(app)
 
@@ -46,4 +47,9 @@ def create_app():
 
 app = create_app()
 
+
+
+
 app.jinja_env.globals['user'] = current_user
+from .forms import getImage
+app.jinja_env.globals['getImage'] = getImage
