@@ -9,12 +9,10 @@
 
 </form>
 <center>
-    {% if user.image != None %}
-            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
-    {% else %}
-        <img src="{{url_for('static', filename='profilePic.jpeg') }}" width="300" height="300" >
-    {% endif %}
 
+    <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
+
+    
     <form method="Post", action="#" enctype="multipart/form-data">
 
       {{ settingsForm.hidden_tag() }}
@@ -35,6 +33,11 @@
         {{ settingsForm.submit() }}
     </form>
 
+
+    <form method="GET" action="/delete">
+    {{deleteForm.delete()}}
+
+    </form>
 
 </center>
 {% endblock %}

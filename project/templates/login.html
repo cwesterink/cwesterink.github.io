@@ -8,6 +8,12 @@
 
 <h2><center>Login</center></h2>
 <br><br><br>
+{% with messages = get_flashed_messages() %}
+    {% for msg in messages %}
+       <center><p><error>{{msg}}</error></p></center>
+    {% endfor %}
+{% endwith %}
+
 <center>
     <p>New User? Register<a href="{{url_for('account_bp.register')}}"> Here</a></p>
     <form action="{{url_for('account_bp.login')}}" method="post">

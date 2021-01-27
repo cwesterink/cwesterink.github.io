@@ -4,11 +4,8 @@
 <ul>
 {% for user in users %}
     <li>
-        {% if user.image != None %}
-            <img src="data:;base64,{{ getImage(user.image) }}" width="30" height="30" alt="Pic">
-        {% else %}
-            <img src="{{url_for('static', filename='profilePic.jpeg') }}" width="30" height="30" >
-        {% endif %}
+        <img src="data:;base64,{{ getImage(user.image) }}" width="30" height="30" alt="Pic">
+
 
 
         <a  href="/user/{{user.username}}">{{user.username}}</a>
@@ -16,4 +13,5 @@
 
 {% endfor %}
 </ul>
+
 {% endblock %}

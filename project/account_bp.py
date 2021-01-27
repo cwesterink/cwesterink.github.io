@@ -13,7 +13,7 @@ from .forms import getImage
 
 # form imports
 
-from .forms import RegistrationForm, LoginForm, SettingsForm, LogoutForm
+from .forms import RegistrationForm, LoginForm, SettingsForm, LogoutForm, DeleteForm
 from urllib.parse import urlparse, urljoin
 
 
@@ -83,7 +83,7 @@ def login():
             user = User.query.filter_by(username=form.username.data).first()
             if user:  # if User exists
                 if user.check_password(form.password.data):  # if password matches
-                    print("login success")
+
                     login_user(user, remember=form.remember.data)
 
                     next_page = request.args.get('next')
@@ -91,9 +91,7 @@ def login():
                         return abort(400)
 
                     return redirect(next_page or url_for('account_bp.profile', username=current_user.username))
-                    # return redirect(next_page) if next_page else redirect(url_for('account_bp.profile'))
-                    # return redirect(next_page) if next_page else redirect(url_for('main_bp.profile', _external=True,
-                    # _scheme='https'))
+
                 else:  # password was incorrect
                     error = 'Incorrect Password. Try again.'
             else:  # User does not exist
@@ -102,6 +100,7 @@ def login():
         else:  # non  valid email
             error = 'Please enter existing user.'
         return render_template('login.html', form=form, error=error)
+
     return render_template('login.html', form=form)
 
 
@@ -123,7 +122,7 @@ def profile(username):
 @login_required
 def settings():
     settingsForm = SettingsForm(bio=current_user.bio,gender=current_user.gender)
-
+    deleteForm = DeleteForm()
     logoutForm = LogoutForm()
     if request.method == "POST":
 
@@ -142,16 +141,27 @@ def settings():
             db.session.commit()
             return redirect(url_for('account_bp.profile', username=current_user.username))
 
-    return render_template('settings.html', settingsForm=settingsForm, logoutForm=logoutForm)
+    return render_template('settings.html', settingsForm=settingsForm, logoutForm=logoutForm, deleteForm = deleteForm)
 
+@account_bp.route('/delete')
+@login_required
+def delete():
+    d = current_user.username
+    logout_user()
+    delt = User.query.filter_by(username=d).first()
+    db.session.delete(delt)
+    db.session.commit()
+    return render_template('index.html')
 
 @account_bp.route('/logout', methods=['POST', "GET"])
+@login_required
 def logout():
     logout_user()
     flash("logged out")
     return redirect(url_for('main_bp.index'))
 
 @account_bp.route('/user')
+@login_required
 def users():
     users = User.query.all()
     return render_template("users.html", users=users)
