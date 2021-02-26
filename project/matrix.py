@@ -199,8 +199,3 @@ class matrix():
         return matrix(newMtx)
 
 
-
-"""d = [[1,4],[8,2]]
-h = matrix([[4,2]])
-d = matrix(d)
-print(d-h)"""

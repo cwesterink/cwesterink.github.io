@@ -1,7 +1,7 @@
 import base64
 import io
 from math import *
-from icecream import ic
+
 from flask import Blueprint, render_template, request, session, flash
 
 
