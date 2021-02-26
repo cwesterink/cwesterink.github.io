@@ -24,6 +24,16 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+#New Matrix Form
+class NewMatrixForm(FlaskForm):
+    name = StringField("name", validators=[DataRequired()])
+    new_matrix = TextAreaField(validators=[DataRequired()])
+    submit = SubmitField("Add Matrix")
+
+#Calculate Matrix Form
+class CalculateMatrixForm(FlaskForm):
+    inpt = StringField(validators=[DataRequired()])
+    submit = SubmitField("Calculate")
 
 # Function Form
 class FunctionForm(FlaskForm):

@@ -1,171 +1,206 @@
+def identity(size):
+    newMtx = [[0 for i in range(size)] for j in range(size)]
+    for i in range(size):
+        for j in range(size):
+            newMtx[i][j] = 1 if j == i else 0
+    return matrix(newMtx)
+
+
 class matrix():
-	
-	def __init__(self, list):
-		
-		self.mtx = self.create(list)
-		self.display = self.format(self.mtx)
-		self.size = self.getSize(self.mtx)
-		self.cols = len(self.mtx[0])
-		self.rows = len(self.mtx)
+    def __init__(self, l):
+        self.mtx = self.createMtx(l)
+        self.cols = len(self.mtx[0])
+        self.rows = len(self.mtx)
+
+    def isSquare(self):
+        return self.cols == self.rows
+
+    def createMtx(self, lst):
+        if type(lst) == int:
+            return identity(lst)
+
+        assert type(lst) == list, "should be type list"
+
+        sdr = len(lst[0])
+        for row in lst:
+            assert len(row) == sdr, "rows must all have same length"
+            assert type(row) == list, "should be type list"
+            for cell in row:
+                assert type(cell) == int or float, "matrix must contain numbers"
+        return lst
+
+    def det(self):
+        try:
+            assert self.isSquare()
+        except:
+            return "Error found. Must use square matrix."
+        if len(self) == 1:
+            return self.mtx[0][0]
+        if len(self) == 4:
+            return (self.mtx[0][0] * self.mtx[1][1]) - (self.mtx[0][1] * self.mtx[1][0])
+        d = 0
+        for c in range(len(self.mtx[0])):
+            if c % 2 == 0:  # +
+                sign = +1
+            else:  # -
+                sign = -1
+
+            x = self.mtx[0][c] * sign
+
+            newMtx = []
+            for row in range(1, self.rows):
+                tab = []
+                for col in range(self.cols):
+                    if col != c:
+                        tab += [self.mtx[row][col]]
+                newMtx += [tab]
+            newMtx = matrix(newMtx)
+
+            d += x * newMtx.det()
+        return d
+
+    def __len__(self):
+
+        return self.rows * self.cols
+
+    def __add__(self, other):
+        try:
+            assert type(other) == matrix
+        except:
+            error = "Error found. You can only add by a matrix. Try again"
+            return error
+        try:
+            assert self.rows == other.rows, "the two matrices must have same number of rows"
+            assert self.cols == other.cols, "the two matrices must have same number of columns"
+        except:
+            error = "Error found. Both matrices must be same size. Try Again."
+            return error
+
+        newMtx = [[0 for i in range(self.cols)] for j in range(self.rows)]
+        for i in range(self.rows):
+            for j in range(self.cols):
+                newMtx[i][j] = self.mtx[i][j] + other.mtx[i][j]
+
+        return matrix(newMtx)
+
+    def __sub__(self, other):
+        try:
+            assert type(other) == matrix
+        except:
+            error = "Error found. You can only subtract by a matrix. Try again"
+            return error
+        try:
+            assert self.rows == other.rows, "the two matrices must have same number of rows"
+            assert self.cols == other.cols, "the two matrices must have same number of columns"
+        except:
+            error = "Error found. Both matrices must be same size. Try Again."
+            return error
+
+        newMtx = [[0 for i in range(self.cols)] for j in range(self.rows)]
+        for i in range(self.rows):
+            for j in range(self.cols):
+                newMtx[i][j] = self.mtx[i][j] - other.mtx[i][j]
+
+        return matrix(newMtx)
+
+    def __mul__(self, other):
+        try:
+            assert type(other) == matrix or int or float
+        except:
+            return  "Error found. Matrix can only be multiplied with object of type int or matrix"
+        if type(other) != matrix:
+            newMtx = self.mtx.copy()
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    newMtx[i][j] = self.mtx[i][j] * other
+            return matrix(newMtx)
+
+        elif type(other) == matrix:
+            try:
+
+                assert self.rows == other.cols, "(a*b): matrix a rows sould be equal to matrix b columsn "
+            except:
+                return "Error found. A*B: matrix A rows should be equal to matrix B columns."
+            newMtx = [[0 for i in range(other.cols)] for j in range(self.rows)]
+
+            for i in range(len(self.mtx)):
+                for j in range(len(other.mtx[0])):
+                    for k in range(len(self.mtx[0])):
+                        newMtx[i][j] += self.mtx[i][k] * other.mtx[k][j]
+
+            return matrix(newMtx)
+
+    def __pow__(self, power):
+        try:
+            assert self.isSquare()
+        except:
+            return "Error found. Must use square matrix."
+        if power == -1:
+            return self.inverse()
+        if power == 2:
+            return self * self
+        return self * (self ** (power - 1))
 
 
-	def format(self,list):
-		table = []
-		print('list:')
-		print(list)
-		print('len:'+ str(len(list)))
-		for row in list:
-			r = ''
-			for cell in row:
-				r +=str(cell)+' '
-				
-			r = r[:-1]
-			
-			table+=[r]
-		
-		return table
+    def __str__(self):
+        mString = ""
+        for row in self.mtx:
+            for cell in row:
+                mString += str(cell) + " "
+            mString += "\n"
+        mString = mString[:-2]
+        return mString
 
-	def getSize(self, trix):
-		rows = str(len(trix))
-		cols = str(len(trix[0]))
-		return "("+rows+","+cols+")"
-
-				
-	def create(self,list):
-
-		if type(list) is not str:
-			return list
-		M = []
-		list = list.split('|')
-		for row in list:
-			row = row.split(',')
-			print(row)
-			for num in range(len(row)):
-				row[num] = int(row[num])
-			M.append(row)
-		return M
-	def multiply(self,b):
-		print(90)
-		print('b is of type:  '+str(type(b)))
-		print('is numeric?'+str(b.isnumeric()))
-		if b.isnumeric() is False:
-			print("errorrrr")
-			
-			print('error3')
-			
-			print("errorrrr1")
-			a = self
-			b = matrix(b)
-			print(type(a),type(b))
-			assert a.cols == b.rows
-			print("errorrrr2")
-			c = [[0 for i in range(b.cols)] for j in range(a.rows)]
-			
-			for i in range(a.rows):
-				for j in range(b.cols):
-					for k in range(a.cols):
-						c[i][j]+=a.mtx[i][k]*b.mtx[k][j]
-			print('end')		
-			b = b.display
-			
-		else:
-			print(1)
-			a = self
-			print(1)
-			c = [[0 for i in range(a.cols)] for j in range(a.rows)]
-			print(c)
-			a = self.mtx
-			for row in range(len(a)):
-				for cell in range(len(a)):
-					c[row][cell] = a[row][cell]*int(b)
-
-			 
-		
-		a = self.display
-		
-		return matrix(c).display , a, b , '*'
-	def addition(self,b):
-		a = self
-		c = [[0 for i in range(a.cols)] for j in range(a.rows)]
-		for i in range(a.rows):
-			for j in range(a.cols):
-				c[i][j] = a.mtx[i][j]+b.mtx[i][j]
+    def toList(self):
+        lst = []
+        for row in self.mtx:
+            lst += [row]
+        return lst
 
 
-		return matrix(c).display 
-	def subtraction(self,b):
-		a = self
-		c = [[0 for i in range(a.cols)] for j in range(a.rows)]
-		for i in range(a.rows):
-			for j in range(a.cols):
-				c[i][j] = a.mtx[i][j]-b.mtx[i][j]
+    def inverse(self):
+        try:
+            assert self.isSquare()
+        except:
+            return "Error found. Must use square matrix."
+        try:
+            assert self.det() != 0
+        except:
+            return "This matrix does not have inverse because det(M) = 0"
+
+        return self.ajoint() * (1 / self.det())
+
+    def cofactor(self):
+        c = [[0 for i in range(self.cols)] for j in range(self.rows)]
+        for i in range(self.rows):
+            for j in range(self.cols):
+                newMtx = []
+                sign = 1 if abs(i - j) % 2 == 0 else -1
+                for row in range(self.rows):
+                    tab = []
+                    for col in range(self.cols):
+                        if row != i and col != j:
+                            tab += [self.mtx[row][col]]
+                    if len(tab) != 0:
+                        newMtx += [tab]
+
+                newMtx = matrix(newMtx)
+                c[i][j] = newMtx.det() * sign
+        return matrix(c)
+
+    def ajoint(self):
+        return self.cofactor().transpose()
+
+    def transpose(self):
+        newMtx = [[0 for i in range(self.rows)] for j in range(self.cols)]
+        for i in range(self.rows):
+            for j in range(self.cols):
+                newMtx[j][i] = self.mtx[i][j]
+        return matrix(newMtx)
 
 
-		return matrix(c).display 
 
-def isValid(name,m,dic):
-	try:
-		x = matrix(m)
-		
-	except:
-		return False
-	else:
-		if dic.get(name,'r') != 'r':
-			return False
-		return True
-
-
-def calcMatrix(expression,matrixes):
-	inpt = expression
-	print(inpt)
-	if '*' in inpt:
-		x = inpt.find('*')
-		a = inpt[:x]
-		
-		b = matrixes.get(inpt[x+1:])
-		if type(b) != str:
-			b = inpt[x+1:]
-		
-		
-		try:
-			d = 7
-			a = matrix(matrixes.get(a))
-			print('point', type(a))
-			return a.multiply(b)
-		except:
-			print('Input Error. \nHelp:\nMatrix*num/Matrix')
-			return False
-	elif '+' in inpt:
-		x = inpt.find('+')
-		a = inpt[:x]
-		b = inpt[x+1:]
-		try:
-			a = matrix(matrixes.get(a))
-			b = matrix(matrixes.get(b))
-			assert a.cols == b.cols
-			assert a.rows == b.rows
-			
-		except:
-			print('Input Error. \nHelp:\nMatrix+Matrix')
-			return False
-		else:
-			return a.addition(b)
-		
-
-	elif '-' in inpt:
-		x = inpt.find('-')
-		a = inpt[:x]
-		b = inpt[x+1:]
-		try:
-			a = matrix(matrixes.get(a))
-			b = matrix(matrixes.get(b))
-			assert a.cols == b.cols
-			assert a.rows == b.rows
-			return a.subtraction(b)
-		except:
-			print('Input Error. \nHelp:\nMatrix+Matrix')
-			return False
-
-		
-	else:
-		return 'pop'
+"""d = [[1,4],[8,2]]
+h = matrix([[4,2]])
+d = matrix(d)
+print(d-h)"""

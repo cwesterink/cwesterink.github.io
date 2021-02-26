@@ -13,14 +13,14 @@
     <form action="{{url_for('account_bp.register')}}" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
     <p>{{ form.username.label }}
-    {{form.username() }}</p>
+    {{form.username( placeholder='Username') }}</p>
 
     <p>{{ form.email.label }}
-        {{ form.email(size=30) }}</p>
+        {{ form.email(size=30, placeholder='Email') }}</p>
     <p>{{ form.password.label }}
-        {{ form.password() }}</p>
+        {{ form.password( placeholder='Password') }}</p>
     <p>{{ form.password2.label }}
-        {{ form.password2() }}</p>
+        {{ form.password2( placeholder='Confirm Password') }}</p>
 
     <p><error>{{error|default('')}}</error></p>
     <p>{{ form.submit() }}</p>

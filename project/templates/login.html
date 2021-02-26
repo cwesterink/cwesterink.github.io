@@ -20,9 +20,9 @@
         {{ form.hidden_tag() }}
 
     <p>{{ form.username.label }}
-        {{ form.username(size=30) }}</p>
+        {{ form.username(size=30, placeholder='Username') }}</p>
     <p>{{ form.password.label }}
-        {{ form.password() }}</p>
+        {{ form.password( placeholder='Password') }}</p>
     <p>{{ form.remember.label}}
         {{ form.remember()}}</p>
     </p><error>{{error|default('')}}</error></p>

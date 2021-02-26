@@ -12,7 +12,7 @@
 
     <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
 
-    
+
     <form method="Post", action="#" enctype="multipart/form-data">
 
       {{ settingsForm.hidden_tag() }}
@@ -21,7 +21,7 @@
             {{ settingsForm.profile_photo() }}
            </p>
         <p>{{ settingsForm.bio.label }}:
-            {{ settingsForm.bio(size = 50) }}
+            {{ settingsForm.bio(size = 50, placeholder='Say something about yourself') }}
            </p>
 
         <p>{{ settingsForm.gender.label }}:

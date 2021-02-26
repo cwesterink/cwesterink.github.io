@@ -8,7 +8,9 @@ main_bp = Blueprint('main_bp', __name__, static_folder='static', template_folder
 
 @main_bp.route('/', methods=['POST', "GET"])
 def index():
-    session['matrix'] = dict()
+
+
+    session["matrix"] = dict()
     if request.method == "GET" or request.method == 'POST':
         return render_template("index.html")
 

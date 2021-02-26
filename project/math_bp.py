@@ -1,19 +1,18 @@
 import base64
 import io
 from math import *
-
+from icecream import ic
 from flask import Blueprint, render_template, request, session, flash
 
 
 
-from .forms import FunctionForm
+from .forms import FunctionForm, CalculateMatrixForm, NewMatrixForm
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 # import math functions
 from .calculator import fx
-from .matrix import calcMatrix
-from .matrix import isValid
+
 
 math_bp = Blueprint('math_bp', __name__, static_folder='static', template_folder='templates')
 math_bp.secret_key = "const"
@@ -35,7 +34,6 @@ def calc():
 
 
 @math_bp.route('/function', methods=['POST', 'GET'])
-
 
 def function():
 
@@ -71,53 +69,83 @@ def function():
 
 
 
-
-
+from .matrix import *
+from .matrix import matrix
 @math_bp.route('/matrix', methods=['POST','GET'])
-def matrix():
+def matrixR():
+    #JINJA2 VARS
+    answer = ""
+    calcError = ""
+    mtxError = ""
+
+    #FORM INSTANCES
+    newMtxform = NewMatrixForm()
+    calcForm = CalculateMatrixForm()
+
+
     if request.method == "POST":
-        if 'matrix' in request.form and request.form['name'].isalpha():
-        
-            inp = str(request.form['matrix'])
-            name = str(request.form['name'])
-            m = session['m']
-            if isValid(name,inp,m):
-                
-                m = session['m']
-                print(type(m))
-                m[name] = inp
-                session['m'] = m
-                print(session['m'])
+
+        if newMtxform.validate_on_submit(): #NEW MATRIX CREATED
+
+            name = newMtxform.name.data #GET NAME
+
+            newMtx = newMtxform.new_matrix.data.split("\r\n") #SPLIT INPUT INTO LIST
+            for row in range(len(newMtx)):
+                newMtx[row] = newMtx[row].split("|")
+                for c in range(len(newMtx[row])):
+                    newMtx[row][c] = int(newMtx[row][c])
+
+            ic()
+            try: #TEST TO SEE IF VALID
+                ic()
+                x = matrix(newMtx)
+                session["matrix"][name] = newMtx
+
+            except: #IS NOT VALID
+                print("failed")
+                mtxError = "Matrix is not Valid. Try again"
+
+        if calcForm.validate_on_submit(): #MATRIX CALCULATION
+            import copy
+            inpt = calcForm.inpt.data #GET INPUT
+
+            mFunctions = {"det": matrix.det, "cofactor": matrix.cofactor, "ajoint": matrix.ajoint,
+                          "transpose": matrix.transpose, 'identity': identity}
+
+
+
+            mtx = copy.deepcopy(session["matrix"])#GET CREATED MATRIXCES
+
+            for i in mtx.keys(): #ITERATE THROUGH DICT TRANSFORMING LIST TO MATRIX TYPES
+                mtx[i] = matrix(mtx.get(i))
+
+            mFunctions = mFunctions | mtx
+
+            try:
+                answer = eval(inpt, mFunctions)
+
+            except(NameError):
+                calcError = "matrix is not defined. Try Again"
+                answer = ""
 
             else:
-                flash('Error found. Try again')
-                
-            return render_template('matrix.html', mats = session['m'], r = 'False')
-        elif 'calculation' in request.form:
-            expression = str(request.form['calculation'])
-            
-            try:
-                answer, a, b, x = calcMatrix(expression,session['m'])
 
-                return render_template('matrix.html', mats = session['m'], a = a, b = b, x = [x] , answer = answer, r = 'True')
-            except:
-                flash('calcMatrix error')
-                return render_template('matrix.html', mats = session['m'], r = 'False')
+                try:
+                    assert type(answer) == int or type(answer) == float or type(answer) == matrix
 
-            
-            
-            #return render_template('matrix.html', mats = session['m'], inpt = [a,b]  , answer = answer)
+                except:
 
-        else:
-            flash('u need to entrer something')
-            return render_template('matrix.html', mats = session['m'], r = 'False')
+                    calcError = answer
+                    answer = ""
+                else:
+                    if type(answer) == matrix:
+                        answer = answer.toList()
 
-            
 
-        
-    else:
-        
-        
-        session['m'] = dict()
-        return render_template('matrix.html',r = 'False')
+    mats = list(session["matrix"].keys())
+
+    return render_template('matrix.html', mats=mats, calcForm=calcForm, newMtxForm=newMtxform, calcError=calcError, mtxError = mtxError, outPut = answer)
+
+
+
     

@@ -19,14 +19,13 @@
             <td>
                 <center>
                     <h1>New Matrix</h1>
-                    <form action ="#", method = "post", name="new">
-                        <label for="name">Enter name:</label><br>
-                        <input type="text" id='name' name = "name">
-                        <br>
+                    <form action ="#", method = "post">
 
-                        <label for="input">New Row</label><br>
-                        <input type="text" id='input' name = "matrix">
-                        <input type="submit" value = "Add Matrix">
+                        {{ newMtxForm.hidden_tag() }}
+                        <p>{{newMtxForm.name(placeholder ="Matrix Name") }}</p>
+                        <p><error>{{mtxError}}</error></p>
+                        <p>{{ newMtxForm.new_matrix(cols="25", rows="5", placeholder = "3|2|4\r\n6|3|9") }}</p>
+                         <p>{{ newMtxForm.submit() }}</p>
                     </form>
                 </center>
             </td>
@@ -36,55 +35,31 @@
             <center>
                
                 <h1>Calculate</h1>
-                <form action ="#", method = "post", name="new">
-                        <label for="calculation">Calculate</label><br>
-                        <input type="text" id='calculation' name = "calculation">
-                        <input type="submit" value = "Enter">
+                <form action ="#", method = "post">
+
+                    {{ calcForm.hidden_tag() }}
+                    <p><error>{{calcError}}</error></p>
+                    <p> {{calcForm.inpt(placeholder ="a+b") }}</p>
+
+                    <p>{{ calcForm.submit() }}</p>
                 </form>
            </center> 
         </td>
-            {% if r == 'True' %}
-            </tr>
-                <table align="center"><tr>
-                <td  align="right">
-                    {% for row in a %}
-                    <p>|{{row}}|</p>
-                    {% endfor %}
-                </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <center>
 
-                <td height="center">
-                    
-                    <p>{{x[0]}}</p>
-                    
-                </td>
+                    <textarea disabled rows="5" cols ="50">
 
-                <td >
-                    {% for i in b %}
+                            {% if outPut != None %}
+                                {% for row in outPut %}
+                                    {% for i in row%}{{i}} {% endfor %}
+                                {% endfor %}
+                            {% endif %}
 
-                    <p>  |{{i}}|  =  </p>
-                    {% endfor %}
-
-                </td>
-
-                 <td>
-               
-                    {% for row in answer %}
-                    <p>|{{row}}|</p>
-                    {% endfor %}
-                    
-                </td>
-                </tr></table>
-
-                </center></td>>
-            </tr>
-            {% endif %}
+                    </textarea>
+                </center>
+            </td>
+        </tr>
     </table>
-
-
-{% with messages = get_flashed_messages() %}
-    {% for msg in messages %}
-        <center>{{msg}}</center>
-    {% endfor %}
-{% endwith %}
-
-{% endblock %}
