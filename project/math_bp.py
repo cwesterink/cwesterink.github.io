@@ -140,8 +140,16 @@ def matrixR():
                 else:
                     if type(answer) == matrix:
                         answer = answer.toList()
+                        s = "\r\n"
+                        for row in answer:
+                            for cell in row:
+                                s += str(cell) + " "
+                            s += "\r\n"
+                        answer = s
 
 
+
+    #answer = "hello \r\n bob \r\n bye"
     mats = list(session["matrix"].keys())
 
     return render_template('matrix.html', mats=mats, calcForm=calcForm, newMtxForm=newMtxform, calcError=calcError, mtxError = mtxError, outPut = answer)

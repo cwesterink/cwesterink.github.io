@@ -9,22 +9,23 @@
         <tr>
             <td style="width:50%;">
                 <center>
-                    <h1>My Matrixes</h1>
+                    <h2>My Matrixes</h2>
+                    <ul>
                     {% for m in mats%}
-                        <p>{{m}}</p>
+                       <center><li>{{m}}</li></center>
                     {% endfor %}
-                    
+                    </ul>
                 </center>
             </td>
             <td>
                 <center>
-                    <h1>New Matrix</h1>
+                    <h2>Create New Matrix</h2>
                     <form action ="#", method = "post">
 
                         {{ newMtxForm.hidden_tag() }}
                         <p>{{newMtxForm.name(placeholder ="Matrix Name") }}</p>
                         <p><error>{{mtxError}}</error></p>
-                        <p>{{ newMtxForm.new_matrix(cols="25", rows="5", placeholder = "3|2|4\r\n6|3|9") }}</p>
+                        <p>{{ newMtxForm.new_matrix(cols="20", rows="4", placeholder = "3|2|4\r\n6|3|9") }}</p>
                          <p>{{ newMtxForm.submit() }}</p>
                     </form>
                 </center>
@@ -50,13 +51,9 @@
             <td colspan="2">
                 <center>
 
-                    <textarea disabled rows="5" cols ="50">
+                    <textarea readonly rows="5" cols ="50" t>
+                        {{outPut}}
 
-                            {% if outPut != None %}
-                                {% for row in outPut %}
-                                    {% for i in row%}{{i}} {% endfor %}
-                                {% endfor %}
-                            {% endif %}
 
                     </textarea>
                 </center>
