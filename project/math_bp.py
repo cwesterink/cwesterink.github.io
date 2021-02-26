@@ -95,9 +95,9 @@ def matrixR():
                 for c in range(len(newMtx[row])):
                     newMtx[row][c] = int(newMtx[row][c])
 
-            ic()
+
             try: #TEST TO SEE IF VALID
-                ic()
+
                 x = matrix(newMtx)
                 session["matrix"][name] = newMtx
 
