@@ -1,11 +1,9 @@
 import base64
 import io
 from math import *
-
+from icecream import ic
 from flask import Blueprint, render_template, request, session, flash
-
-
-
+from icecream import ic
 from .forms import FunctionForm, CalculateMatrixForm, NewMatrixForm
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -73,23 +71,109 @@ from .matrix import *
 from .matrix import matrix
 @math_bp.route('/matrix', methods=['POST','GET'])
 def matrixR():
+    # JINJA2 VARS
+    answer = ""
+    calcError = ""
+    mtxError = ""
+
+    # FORM INSTANCES
+    newMtxform = NewMatrixForm()
+    calcForm = CalculateMatrixForm()
+    if request.method == "GET":
+        session["matrix"] = dict()
+
+        session['numMtx'] =0
+        print(session)
+    if request.method == "POST":
+
+        if newMtxform.validate_on_submit():  # NEW MATRIX CREATED
+
+            name = newMtxform.name.data  # GET NAME
+
+            newMtx = newMtxform.new_matrix.data.split("\r\n")  # SPLIT INPUT INTO LIST
+            for row in range(len(newMtx)):
+                newMtx[row] = newMtx[row].split("|")
+                for c in range(len(newMtx[row])):
+                    newMtx[row][c] = int(newMtx[row][c])
+
+            try:  # TEST TO SEE IF VALID
+
+                x = matrix(newMtx)
+                session['numMtx'] += 1
+                session["matrix"].update({name:newMtx})
+                ic(session)
+            except:  # IS NOT VALID
+                print("failed")
+                mtxError = "Matrix is not Valid. Try again"
+
+        if calcForm.validate_on_submit():  # MATRIX CALCULATION
+            ic(session)
+            import copy
+            inpt = calcForm.inpt.data  # GET INPUT
+
+            mFunctions = {"det": matrix.det, "cofactor": matrix.cofactor, "ajoint": matrix.ajoint,
+                          "transpose": matrix.transpose, 'identity': identity}
+
+            mtx = copy.deepcopy(session["matrix"])  # GET CREATED MATRICES
+
+            for i in mtx.keys():  # ITERATE THROUGH DICT TRANSFORMING LIST TO MATRIX TYPES
+                mtx[i] = matrix(mtx.get(i))
+
+            mFunctions = mFunctions | mtx
+
+            try:
+                answer = eval(inpt, mFunctions)
+
+            except(NameError):
+                calcError = "matrix is not defined. Try Again"
+                answer = ""
+
+            else:
+
+                try:
+                    assert type(answer) == int or type(answer) == float or type(answer) == matrix
+
+                except:
+
+                    calcError = answer
+                    answer = ""
+                else:
+                    if type(answer) == matrix:
+                        answer = answer.toList()
+                        s = "\r\n"
+                        for row in answer:
+                            for cell in row:
+                                s += str(cell) + " "
+                            s += "\r\n"
+                        answer = s
+
+    # answer = "hello \r\n bob \r\n bye"
+    mats = list(session["matrix"].keys())
+
+    return render_template('matrix.html', mats=mats, calcForm=calcForm, newMtxForm=newMtxform, calcError=calcError,
+                           mtxError=mtxError, outPut=answer)
+
+
+
+"""
     #JINJA2 VARS
     answer = ""
     calcError = ""
     mtxError = ""
 
     #FORM INSTANCES
-    newMtxform = NewMatrixForm()
+    newMtxForm = NewMatrixForm()
     calcForm = CalculateMatrixForm()
 
 
     if request.method == "POST":
+        ic("POST")
+        ic(session)
+        if newMtxForm.validate_on_submit(): #NEW MATRIX CREATED
 
-        if newMtxform.validate_on_submit(): #NEW MATRIX CREATED
+            name = newMtxForm.name.data #GET NAME
 
-            name = newMtxform.name.data #GET NAME
-
-            newMtx = newMtxform.new_matrix.data.split("\r\n") #SPLIT INPUT INTO LIST
+            newMtx = newMtxForm.new_matrix.data.split("\r\n") #SPLIT INPUT INTO LIST
             for row in range(len(newMtx)):
                 newMtx[row] = newMtx[row].split("|")
                 for c in range(len(newMtx[row])):
@@ -99,14 +183,16 @@ def matrixR():
             try: #TEST TO SEE IF VALID
 
                 x = matrix(newMtx)
+                ic(session)
                 session["matrix"][name] = newMtx
+                ic(session)
 
             except: #IS NOT VALID
                 print("failed")
                 mtxError = "Matrix is not Valid. Try again"
 
         if calcForm.validate_on_submit(): #MATRIX CALCULATION
-            import copy
+
             inpt = calcForm.inpt.data #GET INPUT
 
             mFunctions = {"det": matrix.det, "cofactor": matrix.cofactor, "ajoint": matrix.ajoint,
@@ -147,13 +233,13 @@ def matrixR():
                             s += "\r\n"
                         answer = s
 
-
-
-    #answer = "hello \r\n bob \r\n bye"
+    #mats = list(copy.deepcopy(session["matrix"]).keys())
     mats = list(session["matrix"].keys())
+    ic(session)
+    ic(mats)
 
-    return render_template('matrix.html', mats=mats, calcForm=calcForm, newMtxForm=newMtxform, calcError=calcError, mtxError = mtxError, outPut = answer)
+    return render_template('matrix.html', mats=mats, calcForm=calcForm, newMtxForm=newMtxForm, calcError=calcError, mtxError = mtxError, outPut = answer)
 
-
+"""
 
     

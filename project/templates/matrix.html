@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% extends "base.html"%}
-{% block title %}Math{% endblock %}
+{% block title %}Matrix{% endblock %}
 {% block content %}
 
 <h1><center>Matrix</center></h1>
@@ -9,13 +9,13 @@
         <tr>
             <td style="width:50%;">
                 <center>
-                    <h2>My Matrixes</h2>
-                    <ul>
+                    <h2>My Matrices</h2>
+
                     {% for m in mats%}
-                       <center><li>{{m}}</li></center>
+                       <center>{{m}}</center>
                     {% endfor %}
 
-                    </ul>
+
                 </center>
             </td>
             <td>
