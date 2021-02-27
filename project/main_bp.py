@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, request, flash
 from flask_login import login_required, current_user
-from icecream import ic
+
 main_bp = Blueprint('main_bp', __name__, static_folder='static', template_folder='templates')
 
 
