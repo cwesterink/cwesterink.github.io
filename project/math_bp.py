@@ -2,7 +2,6 @@ import base64
 import io
 from math import *
 from flask import Blueprint, render_template, request, session, flash
-from icecream import ic
 from .forms import FunctionForm, CalculateMatrixForm, NewMatrixForm
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
