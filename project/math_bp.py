@@ -1,7 +1,6 @@
 import base64
 import io
 from math import *
-from icecream import ic
 from flask import Blueprint, render_template, request, session, flash
 from icecream import ic
 from .forms import FunctionForm, CalculateMatrixForm, NewMatrixForm
@@ -83,7 +82,7 @@ def matrixR():
         session["matrix"] = dict()
 
         session['numMtx'] =0
-        print(session)
+
     if request.method == "POST":
 
         if newMtxform.validate_on_submit():  # NEW MATRIX CREATED
@@ -101,13 +100,13 @@ def matrixR():
                 x = matrix(newMtx)
                 session['numMtx'] += 1
                 session["matrix"].update({name:newMtx})
-                ic(session)
+
             except:  # IS NOT VALID
                 print("failed")
                 mtxError = "Matrix is not Valid. Try again"
 
         if calcForm.validate_on_submit():  # MATRIX CALCULATION
-            ic(session)
+
             import copy
             inpt = calcForm.inpt.data  # GET INPUT
 
