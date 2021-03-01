@@ -9,6 +9,7 @@ chat_bp = Blueprint('chat_bp', __name__, static_folder='static', template_folder
 @chat_bp.route('/', methods=['POST', 'GET'])
 @login_required
 def chat():
+	print('chat')
 	return render_template('chat.html', name = current_user.username)
 
 from project import socketio
@@ -23,11 +24,22 @@ def disconnect():
 
 @socketio.on('message')
 def handle(msg):
-	msg = current_user.username+": "+msg
-	print("message "+msg)
-	pic = getImage(current_user.image)
-	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic">'+msg
+	import datetime
+	tme = datetime.datetime.now()
+	print("time")
+	hour = str(tme.hour % 12)
+	min = str(tme.minute)
+	if int(min)<10:
+		min = f"0{min}"
+	if msg[:10] == "data:image":
+		msg = f'<img src="{msg}" width="200" height="200" alt="Pic">'
 
+	msg = current_user.username+": "+msg
+
+	pic = getImage(current_user.image)
+
+	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic">'+msg
+	msg = f'<p>{msg}<right>{hour}:{min}</right></p>'
 	send(msg, broadcast=True)
 
 

@@ -5,13 +5,25 @@
 
 
 {% block content %}
+<center>
+    <font size="6">Word of the Day</font><br>
+    <font size="4">{{date}}</font>
+    <br><br>
 
-<h2><center>Home Page</center></h2>
-{% with messages = get_flashed_messages() %}
-    {% for msg in messages %}
-        <p>{{msg}}</p>
+    <font size="6"><em>{{wod}}</em></font><br>
+
+    <em>{{desc}}</em>
+    <br><br>
+
+    <font size="4"><strong>Definition</strong></font>
+    <br><br>
+    {% for def in defs %}
+        <em>{{def}}</em><br>
     {% endfor %}
-{% endwith %}
+
+</center>
+
+
 
 
 

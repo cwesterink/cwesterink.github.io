@@ -56,6 +56,8 @@ def create_app():
     from .chat_bp import chat_bp
     app.register_blueprint(chat_bp, url_prefix='/chat')
 
+
+
     return app
 
 
