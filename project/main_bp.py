@@ -36,9 +36,9 @@ def index():
 
 
     def getDate():
-        import datetime
+        from datetime import datetime, timedelta, timezone
 
-        current_time = datetime.datetime.now()
+        current_time = datetime.now(timezone.utc) - timedelta(hours=8, minutes=0)
         months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
 
         return months[current_time.month-1] + " " + str(current_time.day) + " " + str(current_time.year)
