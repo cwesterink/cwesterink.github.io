@@ -45,7 +45,9 @@ $(document).ready(function() {
 
     socket.on('message', function (msg) {
         $("#messages").append('<li>' + msg + '</li>');
-        console.log('Received message');
+        chatWindow = document.getElementById('chat-window');
+        var xH = chatWindow.scrollHeight;
+        chatWindow.scrollTo(0, xH);
     });
 
 
@@ -73,7 +75,7 @@ $(document).ready(function() {
 
 
 
-<div style = "width: 100%; height: 550px;  overflow:scroll; border: thin #000 solid; padding: 5px;">
+<div id ="chat-window" style = "width: 100%; height: 550px;  overflow:scroll; border: thin #000 solid; padding: 5px;">
 
     <ul id="messages">
 
