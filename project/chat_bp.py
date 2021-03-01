@@ -26,11 +26,13 @@ def disconnect():
 def handle(msg):
 	import datetime
 	tme = datetime.datetime.now()
-	print("time")
+
 	hour = str(tme.hour % 12)
 	min = str(tme.minute)
+
 	if int(min)<10:
 		min = f"0{min}"
+
 	if msg[:10] == "data:image":
 		msg = f'<img src="{msg}" width="200" height="200" alt="Pic">'
 
