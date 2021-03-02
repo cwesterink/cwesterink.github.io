@@ -34,7 +34,6 @@ def disconnect():
 def handle(msg):
 	import datetime
 	tme = datetime.datetime.now()
-
 	hour = str(tme.hour % 12)
 	min = str(tme.minute)
 
@@ -51,11 +50,8 @@ def handle(msg):
 	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic">'+msg
 	msg = f'<p>{msg}<right>{hour}:{min}</right></p>'
 
-	numEntries = len(History.query.all())
-
-
 	send(msg, broadcast=True)
-
+	numEntries = len(History.query.all())
 	while numEntries >= 100:
 		firstMsg = History.query.first()
 		db.session.delete(firstMsg)
