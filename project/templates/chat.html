@@ -8,7 +8,6 @@
 </head>
 <body>
 <script type="text/javascript">
-
     $(document).ready(function() {
         document.getElementById("inp").addEventListener("change", readFile);
         var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -29,55 +28,61 @@
         }
     });
 </script>
-<script type="text/javascript">
-
-$(document).ready(function() {
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+<script>
+    $(document).ready(function() {
 
 
-    socket.on('connect', function () {
-        socket.send(' has connected!');
+
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            socket.on('disconnect', function () {
+                socket.send(' left the chat.');
+            });
+
+            socket.on('connect', function () {
+                socket.send(' joined the chat.');
+            });
+
+
+            socket.on('message', function (msg) {
+                $("#messages").append('<li>' + msg + '</li>');
+                chatWindow = document.getElementById('chat-window');
+                var xH = chatWindow.scrollHeight;
+                chatWindow.scrollTo(0, xH);
+            });
+
+
+            $('#sendbutton').on('click', function () {
+                if ($('#myMessage').val() !== ''){
+                    socket.send($('#myMessage').val());
+                    $('#myMessage').val('');
+
+                }
+
+
+            });
+
+
+            $('#myMessage').on("keypress", function (e) {
+                var key = e.which;
+                if (key == 13) {
+                    if ($('#myMessage').val() != '')
+                        socket.send($('#myMessage').val());
+                    $('#myMessage').val('');
+
+                }
+
+            });
     });
 
-    socket.on('disconnect', function () {
-        socket.send(' has disconnected!');
-    });
-
-    socket.on('message', function (msg) {
-        $("#messages").append('<li>' + msg + '</li>');
-        chatWindow = document.getElementById('chat-window');
-        var xH = chatWindow.scrollHeight;
-        chatWindow.scrollTo(0, xH);
-    });
-
-
-    $('#sendbutton').on('click', function () {
-        if ($('#myMessage').val() != '')
-
-            socket.send($('#myMessage').val());
-        $('#myMessage').val('');
-    });
-
-
-    $('#myMessage').on("keypress", function (e) {
-        var key = e.which;
-        if (key == 13) {
-            if ($('#myMessage').val() != '')
-                socket.send($('#myMessage').val());
-            $('#myMessage').val('');
-
-        }
-
-    });
-
-});
 </script>
 
-
-
 <div id ="chat-window" style = "width: 100%; height: 550px;  overflow:scroll; border: thin #000 solid; padding: 5px;">
-
     <ul id="messages">
+        {% for msg in history %}
+            {{msg|safe}}
+        {% endfor %}
+
 
     </ul>
 </div>
@@ -85,7 +90,6 @@ $(document).ready(function() {
 <p><input id="inp" type='file'><error>Note: Image size must be smaller than 1 MB</error> </p>
 <input type="text" id="myMessage" placeholder="message" size="100">
 <button id="sendbutton">Send</button>
-
 </body>
 
 {% endblock %}

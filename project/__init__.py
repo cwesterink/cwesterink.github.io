@@ -1,16 +1,17 @@
 import os
-
 from flask import Flask, flash, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
 from flask_socketio import SocketIO
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
-from sqlalchemy.exc import SQLAlchemyError
 
 db = SQLAlchemy()
 
 
-
+from .models import User, History
+from . import db
 
 
 def create_app():
@@ -65,8 +66,9 @@ def create_app():
 app = create_app()
 
 
-
-
+admin = Admin(app)
+admin.add_view(ModelView(User,db.session))
+admin.add_view(ModelView(History,db.session))
 #Below are global variables for jinja2
 app.jinja_env.globals['user'] = current_user
 from .forms import getImage

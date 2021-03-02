@@ -2,7 +2,10 @@ from flask import Blueprint, render_template, session, redirect, request, url_fo
 from flask_socketio import send, SocketIO
 from flask_login import current_user, login_required
 from .forms import getImage
+from .models import History
+from . import db
 chat_bp = Blueprint('chat_bp', __name__, static_folder='static', template_folder='templates')
+
 
 
 
@@ -10,7 +13,12 @@ chat_bp = Blueprint('chat_bp', __name__, static_folder='static', template_folder
 @login_required
 def chat():
 	print('chat')
-	return render_template('chat.html', name = current_user.username)
+	hist = History.query.all()
+	history = []
+	for msg in hist:
+		history += [msg.message]
+
+	return render_template('chat.html', name = current_user.username,history = history)
 
 from project import socketio
 
@@ -42,6 +50,16 @@ def handle(msg):
 
 	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic">'+msg
 	msg = f'<p>{msg}<right>{hour}:{min}</right></p>'
+
+	numEntries = len(History.query.all())
+
+	while numEntries >= 100:
+		firstMsg = History.query.first()
+		db.session.delete(firstMsg)
+		db.session.commit()
+
+	db.session.add(History(message=msg))
+	db.session.commit()
 	send(msg, broadcast=True)
 
 

@@ -45,7 +45,7 @@ class FunctionForm(FlaskForm):
 
 # Profile Form
 class SettingsForm(FlaskForm):
-    profile_photo = FileField(validators=[FileAllowed(['jpg', 'png'], 'images only'), Optional()])
+    profile_photo = FileField(validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'images only'), Optional()])
     bio = TextAreaField("Bio")
     gender = SelectField("Gender", choices=[('I would rather not say','I would rather not say'),('Male','Male'), ('Female','Female'), ('Other', 'Other')], validators=[Optional()])
     privacy = BooleanField("Private")
