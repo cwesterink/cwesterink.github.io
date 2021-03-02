@@ -42,17 +42,18 @@ def register():
         return True
 
     form = RegistrationForm()
-    e = "/!@#$%^&*():,.:?'}{|-+="
+    e = "/!@#$%^&*():,.:?'}{|-+= "
     if request.method == "POST":
 
         if form.validate_on_submit():
             if validate_user(form.username.data):
 
-
-
                 user = User(username=form.username.data, email=form.email.data)
+
+
                 user.set_password(form.password.data)
                 db.session.add(user)
+
                 try:
                     db.session.commit()
                 except:

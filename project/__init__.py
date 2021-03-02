@@ -67,7 +67,11 @@ app = create_app()
 
 
 admin = Admin(app)
-admin.add_view(ModelView(User,db.session))
+class MV(ModelView):
+    form_excluded_columns = ['password_hash', 'image']
+    column_exclude_list = ['password_hash', "image",]
+
+admin.add_view(MV(User,db.session))
 admin.add_view(ModelView(History,db.session))
 #Below are global variables for jinja2
 app.jinja_env.globals['user'] = current_user
