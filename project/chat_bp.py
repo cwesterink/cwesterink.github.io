@@ -53,6 +53,9 @@ def handle(msg):
 
 	numEntries = len(History.query.all())
 
+
+	send(msg, broadcast=True)
+
 	while numEntries >= 100:
 		firstMsg = History.query.first()
 		db.session.delete(firstMsg)
@@ -60,6 +63,5 @@ def handle(msg):
 
 	db.session.add(History(message=msg))
 	db.session.commit()
-	send(msg, broadcast=True)
 
 
