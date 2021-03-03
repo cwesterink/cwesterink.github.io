@@ -37,6 +37,7 @@ def handle(msg):
 	hour = str(tme.hour % 12)
 	min = str(tme.minute)
 
+
 	if int(min)<10:
 		min = f"0{min}"
 
@@ -44,20 +45,20 @@ def handle(msg):
 		msg = f'<img src="{msg}" width="200" height="200" alt="Pic">'
 
 	msg = current_user.username+": "+msg
-
+	msgHist = msg
 	pic = getImage(current_user.image)
 
 	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic">'+msg
 	msg = f'<p>{msg}<right>{hour}:{min}</right></p>'
 
 	send(msg, broadcast=True)
-	numEntries = len(History.query.all())
-	while numEntries >= 100:
+
+	while len(History.query.all()) >= 30:
 		firstMsg = History.query.first()
 		db.session.delete(firstMsg)
-		db.session.commit()
 
-	db.session.add(History(message=msg))
+
+	db.session.add(History(message=msgHist))
 	db.session.commit()
 
 
