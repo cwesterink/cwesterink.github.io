@@ -29,10 +29,9 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         """Return the email address to satisfy Flask-Login's requirements."""
-        return as_unicode(self.id)
-
-    def __unicode__(self):
         return self.id
+
+
 
 
 
