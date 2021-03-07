@@ -1,0 +1,21 @@
+{% extends 'admin/master.html' %}
+
+{% block brand %}
+<a href="{{url_for('main_bp.index')}}">
+    <img src="{{url_for('static', filename='logo.png')}}" height="45" width="45" >
+</a>
+{% endblock %}
+
+
+
+{% block body %}
+{% if user.is_active %}
+<h1>You have access to this page. You can return <a href="{{url_for('main_bp.index')}}">home</a></h1><br>
+
+This site is secured with Draymond Defence.
+{% else %}
+    <h1>You do not have access to admin page return <a href="{{url_for('main_bp.index')}}">home</a></h1><br>
+    <img src="{{url_for('static',filename='getOut.gif')}}"><br>
+    This site is secured with Draymond Defence.
+{% endif %}
+{% endblock %}

@@ -14,14 +14,10 @@
         {{ form.hidden_tag() }}
     <p>{{ form.username.label }}
     {{form.username( placeholder='Username') }}</p>
-
-    <p>{{ form.email.label }}
-        {{ form.email(size=30, placeholder='Email') }}</p>
     <p>{{ form.password.label }}
         {{ form.password( placeholder='Password') }}</p>
     <p>{{ form.password2.label }}
         {{ form.password2( placeholder='Confirm Password') }}</p>
-
     <p><error>{{error|default('')}}</error></p>
     <p>{{ form.submit() }}</p>
 

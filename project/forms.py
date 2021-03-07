@@ -11,7 +11,6 @@ import email_validator
 # registration form
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Verify Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
@@ -48,7 +47,6 @@ class SettingsForm(FlaskForm):
     profile_photo = FileField(validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'images only'), Optional()])
     bio = TextAreaField("Bio")
     gender = SelectField("Gender", choices=[('I would rather not say','I would rather not say'),('Male','Male'), ('Female','Female'), ('Other', 'Other')], validators=[Optional()])
-    privacy = BooleanField("Private")
     submit = SubmitField("Update Settings")
 
 #logout Form

@@ -53,7 +53,7 @@ def handle(msg):
 
 	send(msg, broadcast=True)
 
-	while len(History.query.all()) >= 30:
+	while History.query.count() >= 30:
 		firstMsg = History.query.first()
 		db.session.delete(firstMsg)
 

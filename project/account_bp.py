@@ -47,8 +47,10 @@ def register():
 
         if form.validate_on_submit():
             if validate_user(form.username.data):
-
-                user = User(username=form.username.data, email=form.email.data)
+                if User.query.count() == 0:
+                    user = User(username=form.username.data,status='admin')
+                else:
+                    user = User(username=form.username.data)
 
 
                 user.set_password(form.password.data)
@@ -115,7 +117,7 @@ def profile(username):
 
     if not user:
         return "user does not exist"
-
+    print(user.status)
     return render_template("profile.html", user=user)
 
 

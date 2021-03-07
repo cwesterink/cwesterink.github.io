@@ -21,11 +21,12 @@ def create_app():
 
     app.config['SECRET_KEY'] = 'const'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
     db.init_app(app)
-
+    if False:
+        db.create_all(app=app)
     login_manager = LoginManager()
     login_manager.login_message = "You must Login to view this page"
 
@@ -42,7 +43,9 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        usr = User.query.get(int(user_id))
+
+        return usr
 
     # Blueprint Setup
     from .account_bp import account_bp
@@ -57,8 +60,6 @@ def create_app():
     from .chat_bp import chat_bp
     app.register_blueprint(chat_bp, url_prefix='/chat')
 
-
-
     return app
 
 
@@ -67,12 +68,36 @@ app = create_app()
 
 
 admin = Admin(app)
-class MV(ModelView):
+class MainView(ModelView):
+    can_create = False
+
+
+    def is_accessible(self):
+        print(current_user.is_authenticated)
+        if current_user.is_authenticated is False:
+            return False
+        usr = User.query.filter_by(id=current_user.get_id()).first()
+        print(usr.status)
+        if usr.status != "admin":
+            return False
+        return True
+
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('account_bp.login'))
+
+
+class userView(MainView):
     form_excluded_columns = ['password_hash', 'image']
     column_exclude_list = ['password_hash', "image",]
+    column_list = ['id',"username","gender","bio","status"]
 
-admin.add_view(MV(User,db.session))
-admin.add_view(ModelView(History,db.session))
+
+
+
+admin.add_view(userView(User,db.session))
+admin.add_view(MainView(History,db.session))
 #Below are global variables for jinja2
 app.jinja_env.globals['user'] = current_user
 from .forms import getImage

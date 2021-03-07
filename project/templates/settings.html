@@ -9,8 +9,7 @@
 
 </form>
 <center>
-
-    <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
+    <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Photo not Av">
 
 
     <form method="Post", action="#" enctype="multipart/form-data">
@@ -23,12 +22,8 @@
         <p>{{ settingsForm.bio.label }}:
             {{ settingsForm.bio(size = 50, placeholder='Say something about yourself') }}
            </p>
-
         <p>{{ settingsForm.gender.label }}:
             {{ settingsForm.gender() }}
-           </p>
-        <p>{{ settingsForm.privacy.label }}:
-            {{ settingsForm.privacy() }}
            </p>
         {{ settingsForm.submit() }}
     </form>
@@ -38,6 +33,5 @@
     {{deleteForm.delete()}}
 
     </form>
-
 </center>
 {% endblock %}
