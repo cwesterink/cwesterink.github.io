@@ -23,7 +23,7 @@ def create_app():
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    #app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
+    app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
     db.init_app(app)
     if False:
         db.create_all(app=app)
