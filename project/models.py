@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.INTEGER, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    image = db.Column(db.BLOB,default=None)
+    image = db.Column(db.LargeBinary,default=None)
     gender = db.Column(db.String,default="Unknown")
     bio = db.Column(db.String(), default='')
     status = db.Column(db.String(), default="member")
