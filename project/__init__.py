@@ -25,7 +25,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
     db.init_app(app)
-    if True:
+    if False:
         db.create_all(app=app)
     login_manager = LoginManager()
     login_manager.login_message = "You must Login to view this page"
