@@ -30,7 +30,6 @@ greenlet==0.4.17
 gunicorn==20.0.4
 icecream==2.1.0
 idna==2.7
-IOBlueprint==0.1.0
 ipython-genutils==0.2.0
 itsdangerous==1.1.0
 Jinja2==2.10
