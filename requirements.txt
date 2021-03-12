@@ -43,6 +43,7 @@ nbformat==4.4.0
 numpy==1.19.5
 Pillow==8.1.0
 plotly==3.4.1
+psycopg2-binary==2.8.6
 pygame==2.0.1
 Pygments==2.7.4
 pyparsing==2.4.7
