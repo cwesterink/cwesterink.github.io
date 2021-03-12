@@ -19,13 +19,14 @@ def create_app():
     app = Flask(__name__)
     socketio = SocketIO(app, cors_allowed_origins='*')
 
+
     app.config['SECRET_KEY'] = 'const'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://meqsgqxvktfdlt:d1ec5a68cb26e38a07fc59906616df44cce3bd9a54434162808e1b45a139bbf2@ec2-54-164-241-193.compute-1.amazonaws.com:5432/dblqtd0taenc53'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['WTF_CSRF_SECRET_KEY'] = 'a random string'
     db.init_app(app)
-    if False:
+    if True:
         db.create_all(app=app)
     login_manager = LoginManager()
     login_manager.login_message = "You must Login to view this page"
@@ -58,6 +59,9 @@ def create_app():
 
     from .chat_bp import chat_bp
     app.register_blueprint(chat_bp, url_prefix='/chat')
+
+    from .hangman_bp import hangman_bp
+    app.register_blueprint(hangman_bp, url_prefix='/hangman')
 
     return app
 

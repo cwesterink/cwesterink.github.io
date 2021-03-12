@@ -7,33 +7,36 @@ main_bp = Blueprint('main_bp', __name__, static_folder='static', template_folder
 
 @main_bp.route('/', methods=['POST', "GET"])
 def index():
-    webpage_response = requests.get('https://www.merriam-webster.com/word-of-the-day')
-    webpage = webpage_response.content
-    soup = BeautifulSoup(webpage, "html.parser")
+    try:
+        webpage_response = requests.get('https://www.merriam-webster.com/word-of-the-day')
+        webpage = webpage_response.content
+        soup = BeautifulSoup(webpage, "html.parser")
 
-    word = soup.h1.text
-
-
-
-    att = str(soup.find(['span'],{'class':'main-attr'}).text)
-
-
-    pronunciation = str(soup.find(['span'], {'class': 'word-syllables'}).text)
-
-    desc = att +" | "+pronunciation
-
-    l = soup.find(['div'],{"class":"wod-definition-container"})
-    defs = l.find_all(['p'])
-
-
-    definitions = []
-    for i in defs:
-        if i.find(['strong']) == None:
-            break
-        definitions += [str(i.text)]
+        word = soup.h1.text
 
 
 
+        att = str(soup.find(['span'],{'class':'main-attr'}).text)
+
+
+        pronunciation = str(soup.find(['span'], {'class': 'word-syllables'}).text)
+
+        desc = att +" | "+pronunciation
+
+        l = soup.find(['div'],{"class":"wod-definition-container"})
+        defs = l.find_all(['p'])
+
+
+        definitions = []
+        for i in defs:
+            if i.find(['strong']) == None:
+                break
+            definitions += [str(i.text)]
+
+    except:
+        word = ""
+        definitions = []
+        desc = ""
 
     def getDate():
         from datetime import datetime, timedelta, timezone
