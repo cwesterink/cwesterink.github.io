@@ -5,7 +5,7 @@ from flask_login import LoginManager, current_user,login_user, logout_user, logi
 from flask_socketio import SocketIO
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-
+import psycopg2
 
 db = SQLAlchemy()
 
