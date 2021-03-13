@@ -1,22 +1,25 @@
 import os
 from flask import Flask, flash, redirect, url_for, render_template
+from flask_admin.menu import MenuLink
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
 from flask_socketio import SocketIO
-from flask_admin import Admin
+from flask_admin import Admin, BaseView , AdminIndexView
 from flask_admin.contrib.sqla import ModelView
-
 db = SQLAlchemy()
 
 
-from .models import User, History
+from .models import History, User
 from . import db
+
+
 
 
 def create_app():
     global socketio
     app = Flask(__name__)
     socketio = SocketIO(app, cors_allowed_origins='*')
+
 
 
     app.config['SECRET_KEY'] = 'const'
@@ -62,44 +65,21 @@ def create_app():
     from .hangman_bp import hangman_bp
     app.register_blueprint(hangman_bp, url_prefix='/hangman')
 
+
+
     return app
 
 
 
 app = create_app()
 
+# ADD ADMIN FEATURES
+from .adminViews import UserView, MyIndexView, MainView
+admin = Admin(app, name='Admin Panel', template_mode='bootstrap3',index_view=MyIndexView())
+admin.add_view(UserView(User, db.session))
+admin.add_view(MainView(History, db.session))
+admin.add_link(MenuLink(name='Home Page', url='/'))
 
-admin = Admin(app)
-class MainView(ModelView):
-    can_create = False
-
-
-    def is_accessible(self):
-        print(current_user.is_authenticated)
-        if current_user.is_authenticated is False:
-            return False
-        usr = User.query.filter_by(id=current_user.get_id()).first()
-        print(usr.status)
-        if usr.status != "admin":
-            return False
-        return True
-
-
-    def inaccessible_callback(self, name, **kwargs):
-        # redirect to login page if user doesn't have access
-        return redirect(url_for('account_bp.login'))
-
-
-class userView(MainView):
-    form_excluded_columns = ['password_hash', 'image']
-    column_exclude_list = ['password_hash', "image",]
-    column_list = ['id',"username","gender","bio","status"]
-
-
-
-
-admin.add_view(userView(User,db.session))
-admin.add_view(MainView(History,db.session))
 #Below are global variables for jinja2
 app.jinja_env.globals['user'] = current_user
 from .forms import getImage

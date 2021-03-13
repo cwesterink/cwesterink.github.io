@@ -6,7 +6,7 @@
 </h1>
 <center>
     {% if user.image != None %}
-            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image">
+            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image" class="img-thumbnail">
     {% else %}
         <img src="{{url_for('static', filename='profilePic.jpeg') }}" width="300" height="300" >
     {% endif %}

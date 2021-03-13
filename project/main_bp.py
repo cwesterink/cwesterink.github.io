@@ -5,6 +5,11 @@ from bs4 import BeautifulSoup
 main_bp = Blueprint('main_bp', __name__, static_folder='static', template_folder='templates')
 
 
+@main_bp.route('/unauthorized', methods=["GET"])
+def unauthorized():
+    return render_template("unauthorized.html")
+
+
 @main_bp.route('/', methods=['POST', "GET"])
 def index():
     try:
