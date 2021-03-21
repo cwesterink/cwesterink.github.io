@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, redirect, url_for, render_template
+from flask import Flask, flash, redirect, url_for, render_template, request
 from flask_admin.menu import MenuLink
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
@@ -72,6 +72,18 @@ def create_app():
 
 
 app = create_app()
+
+@app.before_request
+def before_request():
+    if app.env == "development":
+        return
+    if request.is_secure:
+        return
+
+    url = request.url.replace("http://", "https://", 1)
+    code = 301
+    return redirect(url, code=code)
+
 
 # ADD ADMIN FEATURES
 from .adminViews import UserView, MyIndexView, MainView
