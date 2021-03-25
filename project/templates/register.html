@@ -13,11 +13,11 @@
     <form action="{{url_for('account_bp.register')}}" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
     <p>{{ form.username.label }}
-    {{form.username( placeholder='Username') }}</p>
+    {{form.username( placeholder='Username',autocomplete="off") }}</p>
     <p>{{ form.password.label }}
-        {{ form.password( placeholder='Password') }}</p>
+        {{ form.password( placeholder='Password',autocomplete="off") }}</p>
     <p>{{ form.password2.label }}
-        {{ form.password2( placeholder='Confirm Password') }}</p>
+        {{ form.password2( placeholder='Confirm Password',autocomplete="off") }}</p>
     <p><error>{{error|default('')}}</error></p>
     <p>{{ form.submit() }}</p>
 

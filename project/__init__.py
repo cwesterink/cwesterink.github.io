@@ -62,10 +62,8 @@ def create_app():
     from .chat_bp import chat_bp
     app.register_blueprint(chat_bp, url_prefix='/chat')
 
-    from .hangman_bp import hangman_bp
-    app.register_blueprint(hangman_bp, url_prefix='/hangman')
-
-
+    from .game_bp import game_bp
+    app.register_blueprint(game_bp)
 
     return app
 
@@ -99,9 +97,3 @@ app.jinja_env.globals['getImage'] = getImage
 
 if __name__ == 'project.__init__':
     socketio.run(app, port=int(os.environ.get('PORT', '5000')))
-
-
-
-
-
-

@@ -1,7 +1,40 @@
 {% extends 'base.html' %}
 {% block title %}Hangman{% endblock %}
 {% block content %}
+<head>
 
-Hello hangman
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+
+<body onload="newGame()">
+    <center>
+        <h1>Hangman Game</h1>
+
+        <br><br>
+
+
+
+        <h3 id="hiddenWord"></h3>
+        <br><br><br>
+        <img id="img" src="../static/game/hangmanGame/hangman1.png" height="250" width="250">
+
+
+        <h5>Letters Guessed</h5>
+        <br>
+
+        <h6><p id="guessedLetters"></p></h6>
+
+        <br><br>
+
+        <input type="text" id="letter" placeholder="enter letter" autocomplete="off" autofocus maxlength="1" minlength="1"/>
+        <button id="tryButton">Test letter</button>
+        <p id="msg"></p>
+    </center>
+
+    <button id="reset">reset game</button>
+</body>
+
+<script src="{{url_for('static',filename='scripts/hangman.js')}}"></script>
 
 {% endblock %}

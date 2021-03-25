@@ -49,10 +49,8 @@ class SettingsForm(FlaskForm):
     gender = SelectField("Gender", choices=[('I would rather not say','I would rather not say'),('Male','Male'), ('Female','Female'), ('Other', 'Other')], validators=[Optional()])
     submit = SubmitField("Update Settings")
 
-#Hangman input form
-class HangmanForm(FlaskForm):
-    letter = StringField("Enter a letter", validators=[DataRequired(),Length(max=1)])
-    #su
+
+
 #logout Form
 class LogoutForm(FlaskForm):
     logout = SubmitField("Logout")

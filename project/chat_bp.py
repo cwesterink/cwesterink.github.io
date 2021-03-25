@@ -37,7 +37,6 @@ def handle(msg):
 	hour = str(tme.hour % 12)
 	min = str(tme.minute)
 
-
 	if int(min)<10:
 		min = f"0{min}"
 
