@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<ul>
-{% for user in users %}
-    <li>
-        <img src="data:;base64,{{ getImage(user.image) }}" width="30" height="30" alt="Pic" class="img-thumbnail">
+<ul class="w3-ul w3-xlarge">
+    <li><h2>Users</h2></li>
+    {% for user in users %}
+        <li>
+            <img src="data:;base64,{{ getImage(user.image) }}" width="30" height="30" alt="Pic" class="w3-circle">
 
 
 
-        <a  href="/user/{{user.username}}">{{user.username}}</a> |  {{user.role}}
-    </li>
+            <a  href="/user/{{user.username}}" class="w3-text-blue">{{user.username}}</a> |  {{user.role}}
+        </li>
 
-{% endfor %}
+    {% endfor %}
 </ul>
 
 {% endblock %}

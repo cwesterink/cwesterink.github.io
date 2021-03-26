@@ -8,20 +8,9 @@ from flask_socketio import SocketIO,send,emit,join_room,leave_room, namespace
 
 
 
-from project import socketio
+#from project import socketio
 @game_bp.route("/hangman")
 def hangman():
     return render_template("hangman.html")
 
-@socketio.on("connect")
-def connect():
-    print("connected")
-
-@socketio.on("disconnect", namespace="/hangman")
-def disconnect():
-    pass
-
-@socketio.on("message", namespace="/hangman")
-def message(msg):
-    print(msg)
 

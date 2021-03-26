@@ -6,27 +6,24 @@
 
 {% block content %}
 
-<h2><center>Login</center></h2>
-<br><br><br>
-{% with messages = get_flashed_messages() %}
-    {% for msg in messages %}
-       <center><p><error>{{msg}}</error></p></center>
-    {% endfor %}
-{% endwith %}
+<br><br>
 
 <center>
-    <p>New User? Register<a href="{{url_for('account_bp.register')}}"> Here</a></p>
-    <form action="{{url_for('account_bp.login')}}" method="post">
+    <div class="w3-container w3-teal">
+        <h2>Login</h2>
+        <p>New User? Register <a href="{{url_for('account_bp.register')}}" class="w3-text-white">Here</a></p>
+    </div>
+    <form action="{{url_for('account_bp.login')}}" method="post" class="w3-container">
         {{ form.hidden_tag() }}
 
     <p>{{ form.username.label }}
-        {{ form.username(size=30, placeholder='Username') }}</p>
+        {{ form.username(size=30, placeholder='Username',class="w3-input") }}</p>
     <p>{{ form.password.label }}
-        {{ form.password( placeholder='Password') }}</p>
+        {{ form.password( placeholder='Password',class="w3-input") }}</p>
     <p>{{ form.remember.label}}
-        {{ form.remember()}}</p>
+        {{ form.remember(class="w3-check")}}</p>
     </p><error>{{error|default('')}}</error></p>
-    <p>{{ form.submit() }}</p>
+    <p>{{ form.submit(class="w3-btn  w3-round w3-teal") }}</p>
     </form>
 </center>
 {% endblock %}

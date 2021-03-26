@@ -1,37 +1,64 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-    <center>{{user.username| title}}'s Settings</center>
-</h1>
-<form method="GET" action="/logout">
-    {{logoutForm.logout()}}
 
-</form>
+<br><br>
 <center>
-    <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Photo not Av">
+    <div class="w3-container w3-teal">
+        <h2>My settings</h2>
+
+    </div>
+    <div class="w3-row-padding">
+        <br><br>
+        <div class="w3-half">
+            <br><br>
+            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Photo not Av" class="w3-circle">
+            <h3>{{user.username |title}}</h3>
+        </div>
+        <div class="w3-half w3-card-4">
+        <form method="Post", action="#" enctype="multipart/form-data" class="w3-container">
+
+          {{ settingsForm.hidden_tag() }}
+            <ul class="w3-ul w3-large">
+                <li>
+                    <p><center>Edit {{ settingsForm.profile_photo.label }}</center><br>
+                    {{ settingsForm.profile_photo(class="w3-btn w3-round w3-teal") }}
+                    </p>
+                </li>
+                <li>
+                    <p><center>{{ settingsForm.bio.label }}</center><br>
+                    {{ settingsForm.bio(size = 70, placeholder='Say something about yourself', class="w3-input w3-teal") }}
+                    </p>
+                </li>
+                <li>
 
 
-    <form method="Post", action="#" enctype="multipart/form-data">
+                <p>{{ settingsForm.gender.label }}:
+                    {{ settingsForm.gender(class="w3-select w3-teal") }}
+                   </p>
+                </li>
+                {{ settingsForm.submit() }}
+            </ul>
+        </form>
+        </div>
+    </div>
 
-      {{ settingsForm.hidden_tag() }}
+    <br><br>
+    <div class="w3-row-padding w3-card">
+        <div class="w3-half">
+            <form method="GET" action="/logout">
+                {{logoutForm.logout(class="w3-btn w3-round w3-orange")}}
 
-        <p>{{ settingsForm.profile_photo.label }}:
-            {{ settingsForm.profile_photo() }}
-           </p>
-        <p>{{ settingsForm.bio.label }}:
-            {{ settingsForm.bio(size = 50, placeholder='Say something about yourself') }}
-           </p>
-        <p>{{ settingsForm.gender.label }}:
-            {{ settingsForm.gender() }}
-           </p>
-        {{ settingsForm.submit() }}
-    </form>
+            </form>
 
+        </div>
+        <div class="w3-half">
+            <form method="GET" action="/delete">
+                {{deleteForm.delete(class="w3-btn w3-red w3-round")}}
 
-    <form method="GET" action="/delete">
-    {{deleteForm.delete()}}
+            </form>
 
-    </form>
+        </div>
+    </div>
 </center>
 {% endblock %}

@@ -6,14 +6,32 @@
 </h1>
 <center>
     {% if user.image != None %}
-            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image" class="img-thumbnail">
+            <img src="data:;base64,{{ getImage(user.image) }}" width="300" height="300"  alt="Image" class="w3-circle">
     {% else %}
-        <img src="{{url_for('static', filename='logo/profilePic.jpeg') }}" width="300" height="300" >
+        <img src="{{url_for('static', filename='logo/profilePic.jpeg') }}" width="300" height="300" class="w3-circle">
     {% endif %}
+    <br><br>
+    <div class="w3-container w3-card-4 w3-teal">
 
-    <p>Gender:<br> {{user.gender}}</p>
-    <p>{{user.bio}}</p>
-    <p>{{user.role}}</p>
+        <ul class="w3-ul">
+            <li>
+                <h2>{{user.username}}</h2>
+
+            </li>
+
+            <li>
+                <p>Gender:<br> {{user.gender}}</p>
+            </li>
+            <li>
+                <p>{{user.bio| default("User has no bio yet")}}</p>
+            </li>
+
+            <li>
+                <p>{{user.role}}</p>
+            </li>
+
+        </ul>
+    </div>
 
 
 </center>

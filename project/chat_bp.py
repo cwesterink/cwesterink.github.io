@@ -47,7 +47,7 @@ def handle(msg):
 	msgHist = msg
 	pic = getImage(current_user.image)
 
-	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic">'+msg
+	msg = f'<img src="data:;base64,{pic}" width="30" height="30" alt="Pic" class="w3-circle">'+msg
 	msg = f'<p>{msg}<right>{hour}:{min}</right></p>'
 
 	send(msg, broadcast=True)
