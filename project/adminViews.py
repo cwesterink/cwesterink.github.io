@@ -17,10 +17,10 @@ class MyIndexView(AdminIndexView):
             return False
         usr = User.query.filter_by(id=current_user.get_id()).first()
 
-        if usr.status != "admin":
-            return False
+        if usr.role.access_Admin:
+            return True
 
-        return True
+        return False
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access
@@ -37,30 +37,33 @@ class MainView(ModelView):
             return False
         usr = User.query.filter_by(id=current_user.get_id()).first()
 
-        if usr.status != "admin":
+        if usr.role.access_Admin:
+            return True
 
-            return False
-
-        return True
+        return False
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access
-        print(name)
+
         return redirect(url_for('main_bp.unauthorized'))
-
-
-
 
 
 class UserView(MainView):
     form_excluded_columns = ['password_hash', 'image']
     column_exclude_list = ['password_hash', "image",]
-    column_list = ['id',"username","gender","bio","status"]
+    column_list = ['role',"username","gender","bio","status"]
     form_choices = {
         'status': [('admin', 'Admin'), ('member', 'Member')],
 
         'gender': [('male', 'male'), ('female', 'female')]
     }
+
+
+
+class RoleView(MainView):
+    can_create = True
+    form_excluded_columns = ['Users']
+    column_list = ['id', "name", "access_Admin", "chat_Cmds"]
 
 
 

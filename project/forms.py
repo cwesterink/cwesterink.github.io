@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, RadioField, TextAreaField,SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, Optional, NoneOf, ValidationError, Length
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-import email_validator
+
 
 
 

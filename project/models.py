@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
     image = db.Column(db.LargeBinary,default=None)
     gender = db.Column(db.String,default="Unknown")
     bio = db.Column(db.String(), default='')
-    status = db.Column(db.String(), default="member")
+    role_id = db.Column(db.INTEGER, db.ForeignKey("role.id"),default=1)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -32,10 +32,15 @@ class User(UserMixin, db.Model):
         return self.id
 
 
+class Role(db.Model):
+    id = db.Column(db.INTEGER, primary_key=True)
+    name = db.Column(db.String())
+    access_Admin = db.Column(db.Boolean(),default=False)
+    chat_Cmds = db.Column(db.Boolean(),default=False)
+    users = db.relationship("User", backref="role")
 
-
-
-
+    def __repr__(self):
+        return f"{self.name}"
 
 
 class History(db.Model):

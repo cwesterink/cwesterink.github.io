@@ -24,6 +24,7 @@ Flask-SocketIO==5.0.1
 Flask-Sockets==0.2.1
 Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.3
+Flask-Migrate==2.7.0
 gevent==20.12.1
 gevent-websocket==0.10.1
 greenlet==0.4.17

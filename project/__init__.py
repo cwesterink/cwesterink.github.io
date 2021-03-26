@@ -5,11 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
 from flask_socketio import SocketIO
 from flask_admin import Admin, BaseView , AdminIndexView
+
+
 from flask_admin.contrib.sqla import ModelView
 db = SQLAlchemy()
 
 
-from .models import History, User
+from .models import History, User, Role
 from . import db
 
 
@@ -71,6 +73,18 @@ def create_app():
 
 app = create_app()
 
+
+
+
+
+m = False
+if m:
+
+    from flask_migrate import Migrate
+    migrate = Migrate(app, db)
+
+
+
 @app.before_request
 def before_request():
     if app.env == "development":
@@ -83,11 +97,16 @@ def before_request():
     return redirect(url, code=code)
 
 
+
+
+
+
 # ADD ADMIN FEATURES
-from .adminViews import UserView, MyIndexView, MainView
+from .adminViews import UserView, MyIndexView, MainView, RoleView
 admin = Admin(app, name='Admin Panel', template_mode='bootstrap3',index_view=MyIndexView())
 admin.add_view(UserView(User, db.session))
 admin.add_view(MainView(History, db.session))
+admin.add_view(RoleView(Role,db.session))
 admin.add_link(MenuLink(name='Home Page', url='/'))
 
 #Below are global variables for jinja2
@@ -95,5 +114,8 @@ app.jinja_env.globals['user'] = current_user
 from .forms import getImage
 app.jinja_env.globals['getImage'] = getImage
 
+
+
 if __name__ == 'project.__init__':
+
     socketio.run(app, port=int(os.environ.get('PORT', '5000')))
