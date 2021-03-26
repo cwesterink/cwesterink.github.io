@@ -51,7 +51,7 @@ class MainView(ModelView):
 class UserView(MainView):
     form_excluded_columns = ['password_hash', 'image']
     column_exclude_list = ['password_hash', "image",]
-    column_list = ['role',"username","gender","bio","status"]
+    column_list = ['role',"username","gender","bio"]
     form_choices = {
         'status': [('admin', 'Admin'), ('member', 'Member')],
 

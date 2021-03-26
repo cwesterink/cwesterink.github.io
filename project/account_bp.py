@@ -117,7 +117,7 @@ def profile(username):
 
     if not user:
         return "user does not exist"
-    print(user.status)
+
     return render_template("profile.html", user=user)
 
 
