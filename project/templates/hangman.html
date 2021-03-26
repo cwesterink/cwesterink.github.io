@@ -3,8 +3,8 @@
 
 
 {% block content %}
-
-    <center onload="newGame()">
+<body onload="newGame()">
+    <center>
         <h1>Hangman</h1>
 
         <br><br>
@@ -29,6 +29,8 @@
     </center>
 
     <button id="reset">reset game</button>
+
+</body>
 
 
 <script src="{{url_for('static',filename='scripts/hangman.js')}}"></script>
