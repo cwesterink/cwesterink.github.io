@@ -76,8 +76,8 @@ app = create_app()
 
 
 
-from flask_migrate import Migrate
-migrate = Migrate(app, db)
+"""from flask_migrate import Migrate
+migrate = Migrate(app, db)"""
 m = True
 if m:
     pass

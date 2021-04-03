@@ -10,6 +10,10 @@ def unauthorized():
     return render_template("unauthorized.html")
 
 
+@main_bp.route("/about-me")
+def about():
+    return render_template("aboutMe.html")
+
 @main_bp.route('/', methods=['POST', "GET"])
 def index():
     try:
