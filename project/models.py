@@ -43,6 +43,5 @@ class Role(db.Model):
         return f"{self.name}"
 
 
-class History(db.Model):
-    id = db.Column("id", db.Integer,primary_key=True)
-    message = db.Column("message", db.String())
+
+

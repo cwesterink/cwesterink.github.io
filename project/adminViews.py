@@ -6,7 +6,7 @@ from flask_admin.menu import MenuLink
 
 from flask_login import LoginManager, current_user,login_user, logout_user, login_required
 
-from .models import User, History
+from .models import User
 from . import db
 
 

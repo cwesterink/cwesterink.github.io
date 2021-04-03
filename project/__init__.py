@@ -11,7 +11,7 @@ from flask_admin.contrib.sqla import ModelView
 db = SQLAlchemy()
 
 
-from .models import History, User, Role
+from .models import  User, Role
 from . import db
 
 
@@ -76,12 +76,12 @@ app = create_app()
 
 
 
-
-m = False
+from flask_migrate import Migrate
+migrate = Migrate(app, db)
+m = True
 if m:
+    pass
 
-    from flask_migrate import Migrate
-    migrate = Migrate(app, db)
 
 
 
@@ -105,7 +105,6 @@ def before_request():
 from .adminViews import UserView, MyIndexView, MainView, RoleView
 admin = Admin(app, name='Admin Panel', template_mode='bootstrap3',index_view=MyIndexView())
 admin.add_view(UserView(User, db.session))
-admin.add_view(MainView(History, db.session))
 admin.add_view(RoleView(Role,db.session))
 admin.add_link(MenuLink(name='Home Page', url='/'))
 

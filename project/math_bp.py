@@ -80,7 +80,7 @@ def matrixR():
     if request.method == "GET":
         session["matrix"] = dict()
 
-        session['numMtx'] =0
+        session['numMtx'] = 0
 
     if request.method == "POST":
 
