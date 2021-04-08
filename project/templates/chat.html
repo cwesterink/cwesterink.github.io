@@ -48,11 +48,36 @@
                 chatWindow.scrollTo(0, xH);
             });
 
+            $('#sendImage').on('click', function (){
+                var link = $('#image_link').val()
+                if (link != ""){
+                    $('#image_link').val('')
+                    var x = '<img src="'+link+'">'
+                    socket.send(x);
+
+                }
+
+            })
 
             $('#sendbutton').on('click', function () {
-                if ($('#myMessage').val() !== ''){
-                    socket.send($('#myMessage').val());
+                var msg = $('#myMessage').val()
+                if (msg !== ''){
                     $('#myMessage').val('');
+                    var loop = document.getElementById("loop");
+                    var caps = document.getElementById("caps");
+                    if (caps.checked){
+                        msg = msg.toUpperCase()
+                        caps.checked = false;
+                        document.getElementById("myMessage").autofocus;
+
+                    };
+                    if (loop.checked){
+                        msg = "<marquee>"+msg+"</marquee>"
+                        loop.checked = false;
+                        document.getElementById("myMessage").autofocus;
+                    };
+                    socket.send(msg);
+
 
                 }
 
@@ -63,30 +88,41 @@
             $('#myMessage').on("keypress", function (e) {
                 var key = e.which;
                 if (key == 13) {
-                    if ($('#myMessage').val() != '')
-                        socket.send($('#myMessage').val());
-                    $('#myMessage').val('');
+                    document.querySelector('#sendbutton').click();
 
                 }
 
             });
+
     });
 
 </script>
 
 <div id ="chat-window" style = "width: 100%; height: 550px;  overflow:scroll; border: thin #000 solid; padding: 5px;">
     <ul id="messages" class="w3-ul">
-        {% for msg in history %}
-            <li>{{msg|safe}}</li>
-        {% endfor %}
-
-
     </ul>
 </div>
 
 <p><input id="inp" type='file'><error>Note: Image size must be smaller than 1 MB</error> </p>
-<input type="text" id="myMessage" placeholder="message" size="100">
+<input type="text" id="myMessage" placeholder="message" size="100" autofocus>
 <button id="sendbutton">Send</button>
+<br><br>
+{% if user.role.chat_Cmds %}
+<div id="cmds" class="w3-container w3-card w3-teal">
+    <ul>
+        <li>
+            <input type="checkbox" id="loop"> Loop text
+        </li>
+        <li>
+            <input type="checkbox" id="caps"> All Caps
+        </li>
+        <li>
+            <input type="text" id="image_link" placeholder="image link"> <button id="sendImage">Share Image</button>
+        </li>
+    </ul>
+</div>
+{% endif %}
+
 </body>
 
 {% endblock %}
