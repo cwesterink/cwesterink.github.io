@@ -12,21 +12,24 @@ from .calculator import fx
 
 math_bp = Blueprint('math_bp', __name__, static_folder='static', template_folder='templates')
 math_bp.secret_key = "const"
+import numpy as np
+from flask import Flask, request, render_template, abort, Response
 
 
 @math_bp.route('/calculator', methods=['POST', 'GET'])
 def calc():
     if request.method == 'POST':
         session['calcInpt'] = request.form['input']
-        f = { 'cos': cos, 'tan': tan, 'sin': sin, 'sqrt': sqrt, 'pi': pi, "e": e, 'abs': fabs, "π": pi}
+        f = {'cos': cos, 'tan': tan, 'sin': sin, 'sqrt': sqrt, 'pi': pi, "e": e, 'abs': fabs, "π": pi}
         try:
             num = eval(session['calcInpt'], f)
         except:
-            num = 'error could not calculate'
-        else:
-            flash(session['calcInpt'])
-            flash(session['calcInpt']+' = '+str(num))
-    return render_template('calculator.html', math='Calculator', inptTxt='Enter Calculation Below:', extra='')
+            flash(f'error could not calculate {request.form["input"]}')
+            num = "?"
+
+        return render_template('calculator.html', math='Calculator', inptTxt='Enter Calculation Below:',c = request.form["input"]+"=" , answer=num)
+
+    return render_template('calculator.html', math='Calculator', inptTxt='Enter Calculation Below:')
 
 
 @math_bp.route('/function', methods=['POST', 'GET'])
@@ -152,92 +155,5 @@ def matrixR():
                            mtxError=mtxError, outPut=answer)
 
 
-
-"""
-    #JINJA2 VARS
-    answer = ""
-    calcError = ""
-    mtxError = ""
-
-    #FORM INSTANCES
-    newMtxForm = NewMatrixForm()
-    calcForm = CalculateMatrixForm()
-
-
-    if request.method == "POST":
-        ic("POST")
-        ic(session)
-        if newMtxForm.validate_on_submit(): #NEW MATRIX CREATED
-
-            name = newMtxForm.name.data #GET NAME
-
-            newMtx = newMtxForm.new_matrix.data.split("\r\n") #SPLIT INPUT INTO LIST
-            for row in range(len(newMtx)):
-                newMtx[row] = newMtx[row].split("|")
-                for c in range(len(newMtx[row])):
-                    newMtx[row][c] = int(newMtx[row][c])
-
-
-            try: #TEST TO SEE IF VALID
-
-                x = matrix(newMtx)
-                ic(session)
-                session["matrix"][name] = newMtx
-                ic(session)
-
-            except: #IS NOT VALID
-                print("failed")
-                mtxError = "Matrix is not Valid. Try again"
-
-        if calcForm.validate_on_submit(): #MATRIX CALCULATION
-
-            inpt = calcForm.inpt.data #GET INPUT
-
-            mFunctions = {"det": matrix.det, "cofactor": matrix.cofactor, "ajoint": matrix.ajoint,
-                          "transpose": matrix.transpose, 'identity': identity}
-
-
-
-            mtx = copy.deepcopy(session["matrix"])#GET CREATED MATRIXCES
-
-            for i in mtx.keys(): #ITERATE THROUGH DICT TRANSFORMING LIST TO MATRIX TYPES
-                mtx[i] = matrix(mtx.get(i))
-
-            mFunctions = mFunctions | mtx
-
-            try:
-                answer = eval(inpt, mFunctions)
-
-            except(NameError):
-                calcError = "matrix is not defined. Try Again"
-                answer = ""
-
-            else:
-
-                try:
-                    assert type(answer) == int or type(answer) == float or type(answer) == matrix
-
-                except:
-
-                    calcError = answer
-                    answer = ""
-                else:
-                    if type(answer) == matrix:
-                        answer = answer.toList()
-                        s = "\r\n"
-                        for row in answer:
-                            for cell in row:
-                                s += str(cell) + " "
-                            s += "\r\n"
-                        answer = s
-
-    #mats = list(copy.deepcopy(session["matrix"]).keys())
-    mats = list(session["matrix"].keys())
-    ic(session)
-    ic(mats)
-
-    return render_template('matrix.html', mats=mats, calcForm=calcForm, newMtxForm=newMtxForm, calcError=calcError, mtxError = mtxError, outPut = answer)
-
-"""
 
     

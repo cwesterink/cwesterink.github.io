@@ -1,0 +1,85 @@
+
+#main-box{
+    grid-template-areas:
+    "main";
+    grid-template-rows: 1fr;
+
+}
+
+#window{
+    grid-area: main;
+}
+
+
+#ttt-content{
+
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+    "sidebar  frame";
+
+
+
+    grid-template-columns: 1fr 3fr;
+
+}
+
+#leaveBtn{
+    grid-area: leaveBtn;
+
+}
+.empty{
+    grid-area: empty;
+}
+
+
+#board{
+    width: 100%;
+    height: 100%;
+    grid-area: frame;
+}
+
+
+
+
+
+#navbar{
+    background-color: var(--blue);
+    grid-area: navbar;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+
+    "leaveBtn empty";
+
+    grid-template-columns: 200px 1fr;
+    /*grid-template-rows: auto;*/
+}
+#sidebar{
+    grid-area: sidebar;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+
+    "roomList"
+    "newRoom"
+    "msg";
+
+
+    grid-template-rows: 7fr 1fr 1fr;
+}
+#listGrid{
+    grid-area: roomList;
+
+
+}
+#newRoom{
+    grid-area: newRoom;
+}
+
+
+#msg{
+    grid-area: msg;
+}

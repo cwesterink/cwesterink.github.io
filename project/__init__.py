@@ -11,7 +11,7 @@ from flask_admin.contrib.sqla import ModelView
 db = SQLAlchemy()
 
 
-from .models import  User, Role
+from .models import User, Role
 from . import db
 
 

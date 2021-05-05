@@ -1,0 +1,240 @@
+:root{
+  box-sizing: border-box;
+  --darkblue:#0D1273;
+  --blue:#0F5AF2;
+  l: #0F88F2;
+  --lightblue:#0F5AF2;
+  --orange:#F28C0F;
+  --red:#D9430D;
+  --white:#fff;
+}
+
+.grid{
+
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+      "navbar"
+
+      "content";
+
+
+  grid-template-rows: 2fr 20fr;
+}
+
+.content{
+  grid-area: content;
+  width: 100%;
+}
+
+
+
+/* Navbar container */
+nav {
+  grid-area: navbar;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial;
+  background-color: var(--lightblue);
+  width: 100%;
+}
+#main-box{
+  grid-area: main;
+  height: 100%;
+}
+
+#alert {
+
+  margin: 20px 100px;
+  padding: 15px;
+  background-color: var(--orange);
+  color: white;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+
+/* Links inside the navbar */
+nav a {
+  font-size: 25px;
+  color: var(--white);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+#leftbtn{
+  float: left;
+  font-size: 25px;
+  color: var(--white);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.tab{
+  float: right;
+}
+
+/* The dropdown container */
+.dropdown {
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 25px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+nav a:hover, .dropdown:hover .dropbtn {
+  color: black;
+}
+.dropdown-content a:hover{
+  color:var(--blue);
+}
+nav a, .dropdown{
+  margin-right: 25px;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bod{
+  top:500px;
+  overflow-y:hidden;
+  z-index: -1;
+}
+
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.closebtn:hover {
+  color: black;
+}
+
+
+.form {
+  color: white;
+  margin: 50px 300px;
+  border-radius: 10px;
+  border-color: green;
+  background-color: var(--blue);
+  padding: 100px 50px;
+
+}
+.form h1{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.form label{
+
+}
+.form input[type=text], input[type=password]{
+  width: 50%;
+  transition: width 0.4s ease-in-out;
+  border: none;
+  border-bottom: 5px solid var(--orange);
+
+}
+.form input[type=text]:focus, input[type=password]:focus{
+  width: 75%;
+}
+
+.form input[type=button], input[type=submit], input[type=reset] {
+    background-color: var(--orange) ;
+    border-radius: 5px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+admin {
+    color : gold;
+}
+
+member {
+    color : darkslategrey;
+}
+
+
+error {
+    color : #ff0000;
+
+}
+
+textarea {
+
+    text-align: justify;
+    -moz-text-align-last: center; /* Firefox 12+ */
+    text-align-last: center;
+}
+
+right {
+    float: right;
+}

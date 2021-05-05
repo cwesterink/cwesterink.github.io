@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Tic Tac Toe{% endblock %}
+
+{% block head %}
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel='shortcut icon' href="{{ url_for('static', filename='logo/logo.png')|default('default') }}" >
+    <link rel="stylesheet" href="{{url_for('static',filename='css/css/all.css')}}" type="text/css">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/game.css')}}">
+
+
+{% endblock %}
+
+
+{% block content %}
+   <div class="content" id="ttt-content">
+
+       <p id="user" hidden>{{user.username}}</p>
+
+
+        <div id="sidebar">
+
+            <div id="listGrid">
+                <h3>    Rooms</h3>
+                <ul id="roomList">
+                    {% for room,data in rooms.items() %}
+
+                        {% if data['ifFull'] %}
+                            <li id="{{room}}">{{room}}'s room    (Full)</li>
+                        {% else %}
+                            <li id="{{room}}">{{room}}'s room   <button onclick="joinRoom(this.parentNode.id)">Join</button></li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="newRoom">
+                <center>
+                    <button onclick="createRoom()" id="nRoomBtn">New Room</button>
+                    <button onclick="closeRoom()" id="cRoomBtn" hidden>Close Room</button>
+                    <button onclick="leaveRoom()" id="lRoomBtn" hidden>Leave Room</button>
+                </center>
+            </div>
+
+            <div id="msg" style = "overflow:scroll; border: thin #000 solid; padding: 5px;">
+
+            </div>
+        </div>
+
+        <div id="board" style="border:1px black solid">
+
+            <br>
+            <center>
+                <h1>Tic Tac Toe</h1>
+                <h6>Create or join a room</h6>
+                <br><br><br><br>
+                <canvas id="game" width="500" height="500" style="border:1px solid #000000;" hidden></canvas>
+
+                <br><br><br>
+
+                <p id="whoturn"></p>
+
+                <div id="reset-area" hidden>
+                    <p id="winTxt"></p>
+                    <button id='reset' onclick="playAgain()" hidden>Play again</button><button id="cancel" onclick="cancel()" hidden>Cancel</button>
+                </div>
+
+            </center>
+
+
+
+
+        </div>
+
+        <script src="{{url_for('static',filename='scripts/TicTacToe.js')}}"></script>
+
+   </div>
+{% endblock %}

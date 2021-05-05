@@ -1,9 +1,14 @@
-<!DOCTYPE html>
+
 {% extends "base.html"%}
 {% block title %}Matrix{% endblock %}
 {% block content %}
 
-<h1><center>Matrix</center></h1>
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/math.css')}}">
+
+{% endblock %}
+<div class="content">
+    <h1><center>Matrix</center></h1>
 
     <table style="width:100%" border="1">
         <tr>
@@ -24,7 +29,7 @@
                     <form action ="#", method = "post">
 
                         {{ newMtxForm.hidden_tag() }}
-                        <p>{{newMtxForm.name(placeholder ="Matrix Name") }}</p>
+                        <p>{{newMtxForm.name(placeholder ="Matrix Name", autocomplete='off') }}</p>
                         <p><error>{{mtxError}}</error></p>
                         <p>{{ newMtxForm.new_matrix(cols="20", rows="4", placeholder = "3|2|4\r\n6|3|9") }}</p>
                          <p>{{ newMtxForm.submit() }}</p>
@@ -35,17 +40,17 @@
         <tr>
             <td colspan="2">
             <center>
-               
+
                 <h1>Calculate</h1>
-                <form action ="#", method = "post">
+                <form action ="#", method = "post" >
 
                     {{ calcForm.hidden_tag() }}
                     <p><error>{{calcError}}</error></p>
-                    <p> {{calcForm.inpt(placeholder ="a+b") }}</p>
+                    <p> {{calcForm.inpt(placeholder ="a+b", autocomplete='off') }}</p>
 
                     <p>{{ calcForm.submit() }}</p>
                 </form>
-           </center> 
+           </center>
         </td>
         </tr>
         <tr>
@@ -61,4 +66,5 @@
             </td>
         </tr>
     </table>
+</div>
 {% endblock %}

@@ -1,90 +1,83 @@
-<!DOCTYPE html>
+
 <html>
     <head>
         <link rel='shortcut icon' href="{{ url_for('static', filename='logo/logo.png')|default('default') }}" >
-        
+        <link rel="stylesheet" href="{{url_for('static',filename='css/css/all.css')}}" type="text/css">
         <title>{% block title%}{% endblock %}</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/base.css')}}">
         {% block head %}{% endblock %}
 
-        <style>
-
-            admin {
-                color : gold;
-            }
-
-            member {
-                color : darkslategrey;
-            }
-
-
-            error {
-                color : #ff0000;
-
-            }
-
-            textarea {
-
-                text-align: justify;
-                -moz-text-align-last: center; /* Firefox 12+ */
-                text-align-last: center;
-            }
-
-            right {
-                float: right;
-            }
-
-        </style>
     </head>
 
 
     <body>
-        <div class="w3-bar w3-blue w3-xlarge w3-hover-blue">
-            <a href="/" class="w3-bar-item w3-button">Home<img src="{{ url_for('static', filename='logo/logo.png')|default('error') }}" width="35" height="35"  alt="Logo" loading="lazy"></a>
-            <a href="/chat" class="w3-bar-item w3-button">Chat</a>
+        <div class="grid">
+            <nav>
 
-            <div class="w3-dropdown-hover">
-                <button class="w3-button">Games</button>
-                <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                  <a href="{{url_for('game_bp.hangman')}}" class="w3-bar-item w3-button">Hangman</a>
-                </div>
-            </div> <!--Games-->
+                {% if user.is_active %}
+                    <div class="dropdown tab" style="margin-right: 70px">
+                        <button class="dropbtn"><img src="data:;base64,{{ getImage(user.image) }}" width="40" height="40" alt="Pic" class="w3-circle"></button>
+                        <div class="dropdown-content">
+                            <a href="/user/{{user.username}}">Profile</a>
+                            <a href="/settings">Settings</a>
+                            {% if user.role.access_Admin %}
+                            <a href="/admin">Admin</a>
+                            {% endif %}
+                            <a href="/logout">Logout</a>
 
-            <div class="w3-dropdown-hover">
-                <button class="w3-button">Math</button>
-                <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                    <a href="/math/calculator" class="w3-bar-item w3-button">Calculator</a>
-                    <a href="/math/function" class="w3-bar-item w3-button">Grapher</a>
-                    <a href="/math/matrix" class="w3-bar-item w3-button">Matrix</a>
-                </div>
-            </div><!--Math-->
+                        </div>
+                    </div>
 
-            <a href="/user" class="w3-bar-item w3-button">View Users</a>
-
-            <!--Right side of nav-->
-            {% if user.is_active %}
-                <a href="/settings" class="w3-bar-item w3-button w3-right">My Account</a>
-                {% if user.role.access_Admin  %}
-                <a href="/admin" class="w3-bar-item w3-button w3-right">Admin</a>
+                {% else %}
+                    <a href="/login" class="tab">Login</a>
                 {% endif %}
-            {% else %}
-                <a href="/login" class="w3-bar-item w3-button w3-right">Login</a>
-            {% endif %}
+
+                <a href="/" id="leftbtn"> Constantine</a>
+                <a href="/chat" class="tab">Chat</a>
+
+                <div class="dropdown tab">
+                    <button class="dropbtn">Mathematics</button>
+                    <div class="dropdown-content">
+                        <a href="/math/calculator">Calculator</a>
+                        <a href="/math/function" disabled="true">Grapher</a>
+                        <a href="/math/matrix" disabled="true">Matrix</a>
+                    </div>
+                </div>
+
+                <a href="/user" class="tab">Users</a>
+
+                <div class="dropdown tab">
+                    <button class="dropbtn">Games</button>
+                    <div class="dropdown-content">
+                        <a href="/hangman">Hangman</a>
+                        <a href="/tictactoe" >Tic-tac-toe</a>
+                        <a href="#" disabled="true">Chess</a>
+                    </div>
+                </div>
+
+
+
+            </nav>
+
+
+
+            <!--<div class="grid-item" id="alert">
+                {% with messages = get_flashed_messages() %}
+                    {% for msg in messages %}
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{msg}}
+                    {% endfor %}
+                {% endwith %}
+            </div>-->
+
+            {% block content %}
+
+            {% endblock %}
 
 
 
         </div>
-        {% with messages = get_flashed_messages() %}
-            {% for msg in messages %}
-                <p>{{msg}}<p>
-            {% endfor %}
-        {% endwith %}
-
-        {% block content %}
-
-        {% endblock %}
-
-
     </body>
 
 

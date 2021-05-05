@@ -1,0 +1,82 @@
+{% extends "base.html"%}
+
+{% block title %}Chat{% endblock %}
+
+{% block head %}
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel='shortcut icon' href="{{ url_for('static', filename='logo/logo.png')|default('default') }}" >
+    <link rel="stylesheet" href="{{url_for('static',filename='css/css/all.css')}}" type="text/css">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/chat.css')}}">
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+
+        <div id="sidebar">
+
+            <div id="listGrid">
+                <ul>
+                <h3>    Chat Rooms</h3>
+                {% for room in rooms %}
+                    <li><p class='room-btn' onclick="selectRoom(this.innerHTML);">{{room}}</p></li>
+                {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+        <script src="{{url_for('static',filename='scripts/chat.js')}}"></script>
+
+
+        <div id="chat-box">
+            <center><h1 id="roomLabel">No room selected</h1></center>
+
+            <div id ="chat-window" style = "width: 100%; height: 450px;  overflow:scroll; border: thin #000 solid; padding: 5px;">
+                <ul id="messages" class="w3-ul">
+                </ul>
+            </div>
+
+            <div id="active-users">
+
+            </div>
+            <div class="input-area">
+                <p><input id="inp" type='file' oninput=""><error>Note: Image size must be smaller than 1 MB</error> </p>
+                <input type="text" id="myMessage" placeholder="message" size="100" autofocus>
+                <button id="sendbutton">Send</button>
+                <br><br>
+            </div>
+
+
+        {% if user.role.chat_Cmds %}
+            <div id="cmds" class="w3-container w3-card w3-teal">
+                <ul>
+                    <li>
+                        <input type="checkbox" id="loop"> Loop text
+                    </li>
+                    <li>
+                        <input type="checkbox" id="caps"> All Caps
+                    </li>
+                    <li>
+                        <input type="text" id="image_link" placeholder="image link"> <button id="sendImage">Share Image</button>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+{% endblock %}

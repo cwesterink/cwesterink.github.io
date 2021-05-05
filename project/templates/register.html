@@ -6,27 +6,30 @@
 
 {% block content %}
 
+<div class="content">
 
-<br><br>
-<center>
+    <br><br>
+    <center>
 
-    <div class="w3-container w3-teal">
-        <h2>Register</h2>
 
-        <p>Already a member? Login<a href="{{url_for('account_bp.login')}}" class="w3-text-white"> Here</a></p>
-    </div>
-    <form action="{{url_for('account_bp.register')}}" method="post" enctype="multipart/form-data" class="w3-container">
-        {{ form.hidden_tag() }}
-    <p>{{ form.username.label }}
-    {{form.username( placeholder='Username',autocomplete="off",class="w3-input") }}</p>
-    <p>{{ form.password.label }}
-        {{ form.password( placeholder='Password',autocomplete="off",class="w3-input") }}</p>
-    <p>{{ form.password2.label }}
-        {{ form.password2( placeholder='Confirm Password',autocomplete="off",class="w3-input") }}</p>
-    <p><error>{{error|default('')}}</error></p>
-    <p>{{ form.submit(class="w3-btn  w3-round w3-teal") }}</p>
+        <form action="{{url_for('account_bp.register')}}" method="post" enctype="multipart/form-data" class="form">
 
-    </form>
+            <h1>Register</h1>
 
-</center>
+            <p>Already a member? Login<a href="{{url_for('account_bp.login')}}"> Here</a></p>
+            {{ form.hidden_tag() }}
+        <p>{{ form.username.label }}<br>
+        {{form.username( placeholder='Username',autocomplete="off") }}</p>
+        <p>{{ form.password.label }}<br>
+            {{ form.password( placeholder='Password',autocomplete="off") }}</p>
+        <p>{{ form.password2.label }}<br>
+            {{ form.password2( placeholder='Confirm Password',autocomplete="off") }}</p>
+        <p><error>{{error|default('')}}</error></p>
+        <p>{{ form.submit() }}</p>
+
+        </form>
+
+    </center>
+
+</div>
 {% endblock %}

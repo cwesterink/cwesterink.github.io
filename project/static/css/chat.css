@@ -1,0 +1,42 @@
+.content{
+
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+      "sidebar chat ";
+
+    grid-template-columns:1fr 3fr;
+}
+
+.room-btn{
+    color:blue;
+}
+.room-btn:hover{
+    color:green;
+
+}
+
+#sidebar{
+    grid-area: sidebar;
+
+}
+
+#chat-box{
+
+    grid-area: chat;
+}
+
+
+#active-users{
+    width: 100%;
+    height: 40px;
+    margin: 10px 0px;
+    border-radius: 2px;
+    border: grey 5px solid;
+}
+
+#active-users p{
+    display: inline-block;
+    margin: 0px 10px;
+
+}
